@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- MD 도우미: MacroDroid가 못 하는 일을 대신하는 작은 앱 (tools/build_helper.sh로 빌드) -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.mdhelper.app">
+
+    <!-- 차 블루투스 목록: 등록 기기의 이름·종류를 읽음 (Android 12+ 실행 중 권한 — 상태 화면 버튼이나 adb pm grant로 줌) -->
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30" />
+
+    <!-- 알림을 못 찾았을 때 그 앱을 열려면 다른 앱의 실행 화면을 볼 수 있어야 함 (Android 11+ 패키지 공개 범위) -->
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent>
+    </queries>
+
+    <application
+        android:allowBackup="false"
+        android:icon="@android:drawable/sym_def_app_icon"
+        android:label="MD 도우미">
+
+        <!-- 상태 화면: 알림 접근 권한, 담아 둔 알림 수 -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="MD 도우미">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- MacroDroid가 부르는 투명 화면: 담아 둔 알림을 찾아 그 알림을 누른 것처럼 엶 -->
+        <activity
+            android:name=".OpenActivity"
+            android:excludeFromRecents="true"
+            android:exported="true"
+            android:noHistory="true"
+            android:taskAffinity=""
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            <intent-filter>
+                <action android:name="com.mdhelper.OPEN_NOTIFICATION" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+        <!-- 차 블루투스 목록: MacroDroid 셸이 am broadcast (user 0, 받는 곳 com.mdhelper.app/.CarReceiver)로 부르면 'CARS=이름|이름'으로 답함 -->
+        <receiver
+            android:name=".CarReceiver"
+            android:exported="true" />
+
+        <!-- 기압계: 같은 방법으로 부르면 1.5초 동안 읽은 기압의 가운데 값을 'P=hPa;N=개수'로 답함 (주차 층 짐작) -->
+        <receiver
+            android:name=".PressureReceiver"
+            android:exported="true" />
+
+        <!-- 알림 접근: 알림이 올 때마다 여는 방법(PendingIntent)을 메모리에 담아 둠 -->
+        <service
+            android:name=".NotiService"
+            android:exported="true"
+            android:label="MD 도우미"
+            android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
+            <intent-filter>
+                <action android:name="android.service.notification.NotificationListenerService" />
+            </intent-filter>
+        </service>
+    </application>
+</manifest>
