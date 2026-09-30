@@ -14,16 +14,18 @@
         </intent>
     </queries>
 
+    <!-- 글자: res/values(영어 기본)·values-ko(한국어). 앱별 언어(안드로이드 13+): res/xml/locales_config.xml -->
     <application
         android:allowBackup="false"
         android:icon="@android:drawable/sym_def_app_icon"
-        android:label="MD 도우미">
+        android:label="@string/app_name"
+        android:localeConfig="@xml/locales_config">
 
         <!-- 상태 화면: 알림 접근 권한, 담아 둔 알림 수 -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
-            android:label="MD 도우미">
+            android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -58,7 +60,7 @@
         <service
             android:name=".NotiService"
             android:exported="true"
-            android:label="MD 도우미"
+            android:label="@string/app_name"
             android:permission="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE">
             <intent-filter>
                 <action android:name="android.service.notification.NotificationListenerService" />

@@ -33,6 +33,7 @@ public class NotiService extends NotificationListenerService {
     @Override
     public void onListenerConnected() {
         instance = this;
+        PressureLog.start(this);        // 알림 접근이 켜져 있는 동안 기압 상시 기록 (주차 층 짐작)
         try {
             StatusBarNotification[] now = getActiveNotifications();
             if (now != null) for (StatusBarNotification s : now) add(s);
@@ -43,6 +44,7 @@ public class NotiService extends NotificationListenerService {
     @Override
     public void onListenerDisconnected() {
         instance = null;
+        PressureLog.stop();
     }
 
     @Override

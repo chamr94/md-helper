@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- English (default). Korean is in values-ko. -->
+<resources>
+    <string name="app_name">MD Helper</string>
+    <string name="about">A small helper that does what MacroDroid cannot do on its own when a macro asks.\n\n• Open notifications directly — remembers how to open each notification as it arrives, so tapping it in the Message Alerts list opens that exact chat or email.\n• Car recognition — tells the parking macros which paired Bluetooth devices are cars (hands-free / car audio).\n• Barometer — measures air pressure so the parking macro can guess which floor you parked on.\n\nEverything stays on this phone. It is never saved to a file or sent anywhere.</string>
+    <string name="noti_on">✅ Notification access: on</string>
+    <string name="noti_off">⚠️ Notification access: off — turn on \"MD Helper\" with the button below</string>
+    <string name="remembered">   Remembered notifications: %1$d</string>
+    <string name="connecting"> (connecting to the notification service)</string>
+    <string name="noti_note">   With notification access on, the helper stays awake and logs air pressure every second (almost no battery).</string>
+    <string name="bt_on">✅ Bluetooth permission: on</string>
+    <string name="bt_off">⚠️ Bluetooth permission: off — turn it on with the button below</string>
+    <string name="cars">   Recognized cars: %1$s</string>
+    <string name="baro_none">— Barometer: not available on this phone (works without floor guessing)</string>
+    <string name="baro_logging">✅ Barometer: logging (last %1$d min)</string>
+    <string name="baro_idle">⚠️ Barometer: available — turn on notification access to log it continuously (measures how far the car went down)</string>
+    <string name="version">Version %1$s</string>
+    <string name="btn_noti_on">Turn on notification access</string>
+    <string name="btn_noti_view">View notification access settings</string>
+    <string name="btn_bt">Grant Bluetooth permission (car recognition)</string>
+</resources>

@@ -15,12 +15,14 @@ BAT=""; [ -f "$BT/d8.bat" ] && BAT=".bat"
 OUT="${1:-build/mdhelper.apk}"
 VER=$(date +%y%m%d%H)          # 버전 번호: 빌드한 시각 (덮어 설치할 때 낮아지지 않게)
 
-rm -rf build/classes build/classes.dex build/base.apk build/aligned.apk
-mkdir -p build/classes
-javac --release 11 -encoding UTF-8 -Xlint:-options -classpath "$AJ" -d build/classes $(find src -name '*.java')
-"$BT/d8$BAT" --release --min-api 29 --lib "$AJ" --output build $(find build/classes -name '*.class')
-"$BT/aapt2$EXE" link -o build/base.apk -I "$AJ" --manifest AndroidManifest.xml \
+rm -rf build/classes build/gen build/res.zip build/classes.dex build/base.apk build/aligned.apk
+mkdir -p build/classes build/gen
+# 리소스(글자 영어·한국어, 앱별 언어 목록) → base.apk + R.java
+"$BT/aapt2$EXE" compile --dir res -o build/res.zip
+"$BT/aapt2$EXE" link -o build/base.apk -I "$AJ" --manifest AndroidManifest.xml --java build/gen build/res.zip \
     --min-sdk-version 29 --target-sdk-version 34 --version-code "$VER" --version-name "1.0.$VER"
+javac --release 11 -encoding UTF-8 -Xlint:-options -classpath "$AJ" -d build/classes $(find src build/gen -name '*.java')
+"$BT/d8$BAT" --release --min-api 29 --lib "$AJ" --output build $(find build/classes -name '*.class')
 python - build/base.apk build/classes.dex <<'PY'
 import sys, zipfile
 with zipfile.ZipFile(sys.argv[1], 'a', zipfile.ZIP_DEFLATED) as z:
