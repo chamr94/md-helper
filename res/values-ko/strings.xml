@@ -18,6 +18,8 @@
     <string name="baro_idle">⚠️ 기압계: 있음 — 알림 접근을 켜야 늘 기록해요 (차에서 내릴 때 내려온 높이를 재요)</string>
     <string name="version">버전 %1$s</string>
     <string name="btn_noti_on">알림 접근 켜기</string>
+    <string name="restricted_hint">   \'제한된 설정\'이라며 켜지지 않으면: [앱 정보 열기] → 오른쪽 위 ⋮ → \'제한된 설정 허용\'을 누른 뒤 다시 알림 접근을 켜 주세요.</string>
+    <string name="btn_app_info">앱 정보 열기 (제한된 설정 허용)</string>
     <string name="btn_noti_view">알림 접근 설정 보기</string>
     <string name="btn_bt">블루투스 권한 주기 (차 알아보기)</string>
     <string name="update_started">MD 도우미를 업데이트하는 중이에요…</string>

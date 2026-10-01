@@ -18,6 +18,8 @@
     <string name="baro_idle">⚠️ Barometer: available — turn on notification access to log it continuously (measures how far the car went down)</string>
     <string name="version">Version %1$s</string>
     <string name="btn_noti_on">Turn on notification access</string>
+    <string name="restricted_hint">   If it says \"Restricted setting\" and won\'t turn on: tap [Open app info] → ⋮ at the top right → \"Allow restricted settings\", then turn on notification access again.</string>
+    <string name="btn_app_info">Open app info (allow restricted settings)</string>
     <string name="btn_noti_view">View notification access settings</string>
     <string name="btn_bt">Grant Bluetooth permission (car recognition)</string>
     <string name="update_started">Updating MD Helper…</string>

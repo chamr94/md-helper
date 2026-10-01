@@ -85,7 +85,7 @@ Turns **Turbo Alarm** alarms on and off and creates them for you, following your
 ### First setup
 
 1. If Turbo Alarm isn't installed, the macro shows an install prompt → [Install] in the Play Store, open Turbo Alarm once, finish its intro and allow notifications.
-2. **Morning** tab, **Alarm name**: the macro turns this Turbo Alarm alarm on and off and sets its time. Create an alarm with this name in Turbo Alarm, or change this field to the name you want and close the window — the macro creates it for you.
+2. **Morning** tab, **Alarm name** (default "Work alarm"): the macro turns this Turbo Alarm alarm on and off and sets its time. The first time you **close** the settings window, it creates this morning alarm in Turbo Alarm for you (also if you install Turbo Alarm later). Renaming recreates it under the new name and deletes the old one.
 3. **Morning** tab: on/off and time per weekday (24-hour), sound, volume and vibration, day-off keywords (e.g. vacation, PTO — morning and lunch alarms are off that day), also off on public holidays, extra-shift keywords (rings a set time before that event).
 4. **Lunch** tab: weekday and extra-shift times (to the second), only when at the office (tap [Set current location as office] there), [Test now].
 5. **Events** tab: minutes before events, per-keyword lead times (e.g. airport|flight=120, dentist=30), keywords to skip, event alarm sound.
@@ -108,7 +108,7 @@ When an app downloaded with a browser uses a sensitive permission such as **noti
 
 ### ① Download
 
-1. Tap [Install MD Helper] in a macro window, or open: https://github.com/chamr94/md-helper/releases/latest/download/mdhelper.apk
+1. Tap [Install MD Helper] in a macro window — a window lists these steps → **[Start download]** (or open: https://github.com/chamr94/md-helper/releases/latest/download/mdhelper.apk).
 2. If Chrome says "File might be harmful", tap **[Download anyway]**.
 3. Tap **[Open]** → in "Install unknown apps" tap **[Settings]** → turn on **Allow from this source** → go back → **[Install]**.
 
@@ -130,7 +130,7 @@ Samsung phones may block it earlier with **Auto Blocker**: Settings → Security
 ### ③ Turn on notification access (if you see "Restricted setting")
 
 1. Open MD Helper → **[Turn on notification access]** → MD Helper → turn on.
-2. If you see "Restricted setting — For your security, this setting is currently unavailable": Settings → Apps → **MD Helper** → **⋮** (top right) → **Allow restricted settings** (confirm with your screen lock).
+2. If you see "Restricted setting — For your security, this setting is currently unavailable": tap **[Open app info]** in MD Helper (or Settings → Apps → **MD Helper**) → **⋮** (top right) → **Allow restricted settings** (confirm with your screen lock).
 3. Again [Turn on notification access] → turn on → **[Allow]**.
 4. For Parking Map, also tap **[Grant Bluetooth permission]** in MD Helper (car recognition).
 

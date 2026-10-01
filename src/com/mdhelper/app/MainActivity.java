@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.hardware.Sensor;
 import android.hardware.SensorManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -24,8 +25,8 @@ import android.widget.TextView;
  */
 public class MainActivity extends Activity {
 
-    TextView status;
-    Button notiBtn, btBtn;
+    TextView status, restricted;
+    Button notiBtn, infoBtn, btBtn;
 
     @Override
     protected void onCreate(Bundle b) {
@@ -58,6 +59,21 @@ public class MainActivity extends Activity {
         notiBtn.setText(R.string.btn_noti_on);
         notiBtn.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_NOTIFICATION_LISTENER_SETTINGS)));
         box.addView(notiBtn);
+
+        // 브라우저로 받아 설치한 앱은 안드로이드 13+에서 알림 접근이 '제한된 설정'으로 막힘 → 앱 정보 ⋮ → '제한된 설정 허용'
+        // (2026-10-01 가상 폰에서 재현 — 사용자 제보 "다른 사람 폰에서 설치가 막힘"). 알림 접근이 꺼져 있을 때만 보임
+        restricted = new TextView(this);
+        restricted.setText(R.string.restricted_hint);
+        restricted.setTextSize(14);
+        restricted.setTextColor(Color.parseColor("#FFB020"));
+        restricted.setPadding(0, 24, 0, 8);
+        box.addView(restricted);
+
+        infoBtn = new Button(this);
+        infoBtn.setText(R.string.btn_app_info);
+        infoBtn.setOnClickListener(v -> startActivity(new Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.fromParts("package", getPackageName(), null))));
+        box.addView(infoBtn);
 
         btBtn = new Button(this);
         btBtn.setText(R.string.btn_bt);
@@ -105,6 +121,9 @@ public class MainActivity extends Activity {
                         : getString(R.string.baro_idle))
                 + "\n\n" + getString(R.string.version, ver));
         notiBtn.setText(noti ? R.string.btn_noti_view : R.string.btn_noti_on);
+        int hint = !noti && Build.VERSION.SDK_INT >= 33 ? android.view.View.VISIBLE : android.view.View.GONE;
+        restricted.setVisibility(hint);
+        infoBtn.setVisibility(hint);
         btBtn.setEnabled(!bt);
     }
 }
