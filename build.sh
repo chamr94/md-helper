@@ -13,7 +13,7 @@ AJ="$SDK/platforms/android-34/android.jar"
 EXE=""; [ -f "$BT/aapt2.exe" ] && EXE=".exe"
 BAT=""; [ -f "$BT/d8.bat" ] && BAT=".bat"
 OUT="${1:-build/mdhelper.apk}"
-VER=$(date +%y%m%d%H)          # 버전 번호: 빌드한 시각 (덮어 설치할 때 낮아지지 않게)
+VER=${MD_VER:-$(date +%y%m%d%H)}   # 버전 번호: 빌드한 시각 (덮어 설치할 때 낮아지지 않게). 시험용으로 MD_VER=번호
 
 rm -rf build/classes build/gen build/res.zip build/classes.dex build/base.apk build/aligned.apk
 mkdir -p build/classes build/gen

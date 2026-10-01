@@ -97,6 +97,7 @@ public class MainActivity extends Activity {
                 + "\n" + getString(R.string.remembered, NotiService.size())
                 + (NotiService.instance == null && noti ? getString(R.string.connecting) : "")
                 + "\n" + getString(R.string.noti_note)
+                + "\n" + getString(Forward.on(this) ? R.string.fwd_on : R.string.fwd_off, Forward.count(this))
                 + "\n\n" + getString(bt ? R.string.bt_on : R.string.bt_off)
                 + "\n" + getString(R.string.cars, CarReceiver.cars(this).replace("CARS=", "").replace("|", ", "))
                 + "\n\n" + (!baro ? getString(R.string.baro_none)

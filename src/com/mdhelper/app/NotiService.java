@@ -50,6 +50,7 @@ public class NotiService extends NotificationListenerService {
     @Override
     public void onNotificationPosted(StatusBarNotification s) {
         add(s);
+        Forward.posted(this, s);        // 메시지 알리미: 거르기 정규식에 맞는 알림만 MacroDroid로 넘김 (켜져 있을 때)
     }
 
     @Override

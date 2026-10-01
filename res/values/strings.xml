@@ -8,6 +8,8 @@
     <string name="remembered">   Remembered notifications: %1$d</string>
     <string name="connecting"> (connecting to the notification service)</string>
     <string name="noti_note">   With notification access on, the helper stays awake and logs air pressure every second (almost no battery).</string>
+    <string name="fwd_on">   Notification forwarding (Message Alerts): on · forwarded %1$d</string>
+    <string name="fwd_off">   Notification forwarding (Message Alerts): off · forwarded %1$d</string>
     <string name="bt_on">✅ Bluetooth permission: on</string>
     <string name="bt_off">⚠️ Bluetooth permission: off — turn it on with the button below</string>
     <string name="cars">   Recognized cars: %1$s</string>
@@ -18,4 +20,10 @@
     <string name="btn_noti_on">Turn on notification access</string>
     <string name="btn_noti_view">View notification access settings</string>
     <string name="btn_bt">Grant Bluetooth permission (car recognition)</string>
+    <string name="update_started">Updating MD Helper…</string>
+    <string name="update_wrong">This file is not an MD Helper update.</string>
+    <string name="update_older">This file is not newer than the installed MD Helper.</string>
+    <string name="update_failed">Could not update MD Helper: %1$s</string>
+    <string name="update_allow">Turn on \"Allow from this source\" for MD Helper, then come back to continue the update.</string>
+    <string name="update_not_allowed">Update stopped: \"Allow from this source\" is off.</string>
 </resources>
