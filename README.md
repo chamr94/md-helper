@@ -6,11 +6,18 @@
 화면 없이 뒤에서 답만 하고, **인터넷 권한이 없어서** 기억한 내용을 밖으로 보내지 않습니다.
 앱 화면은 폰 언어를 따라 한국어·영어로 나오고, 안드로이드 13 이상에서는 설정 → 앱 → MD 도우미 → 언어에서 따로 고를 수 있습니다.
 
+📖 **사용 설명서(사진 포함)**: [한국어](docs/GUIDE.ko.md) · [English](docs/GUIDE.en.md) — 매크로 3개 설치·사용법, 빠른 설정 타일·위젯,
+MD 도우미 설치(Play 프로텍트에 막힐 때 포함).
+
 ## 설치
 
 1. [Releases](../../releases/latest)에서 `mdhelper.apk`를 받아 설치합니다(처음이면 '이 출처 허용'을 한 번 켜야 합니다).
    이 도우미를 쓰는 매크로는 도우미가 없으면 설치 창을 한 번 띄우고, [설치]를 누르면 이 주소를 브라우저로 엽니다.
-2. 'MD 도우미' 앱을 열어 필요한 권한을 켭니다.
+   **"기기를 보호하기 위해 앱이 차단됨"(Play 프로텍트)이 뜨면**: 브라우저로 받은 앱이 알림 접근을 쓰면 Play 프로텍트가 설치를 막습니다.
+   Play 스토어 → 프로필 → Play 프로텍트 → 톱니 → 'Play 프로텍트로 앱 검사' 끄기 → [일시중지] → 다시 설치(다음 날 자동으로 다시 켜짐).
+   자세한 순서와 사진은 [설명서 6번](docs/GUIDE.ko.md#6--md-도우미-선택--설치와-play-프로텍트-우회).
+2. 'MD 도우미' 앱을 열어 필요한 권한을 켭니다. 알림 접근을 켤 때 **"제한된 설정"**이 뜨면 설정 → 애플리케이션 → MD 도우미 →
+   오른쪽 위 ⋮ → '제한된 설정 허용'을 누른 뒤 다시 켭니다.
    - **알림 접근** — 알림 바로 열기에 필요합니다. 켜 두면 도우미가 늘 깨어 있어서 기압을 1초마다 기록합니다(배터리는 거의 쓰지 않음).
    - **블루투스(근처 기기)** — 차 알아보기에 필요합니다.
 
@@ -108,11 +115,18 @@ It has no UI of its own beyond a status screen, and **it has no internet permiss
 The app follows your phone language (English or Korean). On Android 13+, you can also pick its language under
 Settings → Apps → MD Helper → Language.
 
+📖 **Illustrated guide**: [English](docs/GUIDE.en.md) · [한국어](docs/GUIDE.ko.md) — installing and using the three macros,
+Quick Settings tiles and widgets, and installing MD Helper (including when Play Protect blocks it).
+
 ### Install
 
 1. Download `mdhelper.apk` from [Releases](../../releases/latest) and install it (the first time, allow installing from that source).
    Macros that use the helper show an install prompt once if it is missing; tapping [Install] opens this download in your browser.
-2. Open the **MD Helper** app and turn on:
+   **If you see "App blocked to protect your device" (Play Protect)**: Play Protect blocks browser-downloaded apps that use
+   notification access. Play Store → profile → Play Protect → gear → turn off "Scan apps with Play Protect" → [Pause] → install again
+   (scanning turns back on the next day). Steps with pictures: [guide section 6](docs/GUIDE.en.md#6--md-helper-optional--installing-it-past-play-protect).
+2. Open the **MD Helper** app and turn on (if you see **"Restricted setting"**, go to Settings → Apps → MD Helper → ⋮ →
+   "Allow restricted settings", then try again):
    - **Notification access** — needed to open notifications directly. While it is on, the helper stays awake and logs air pressure
      every second (almost no battery).
    - **Bluetooth (nearby devices)** — needed for car recognition.
