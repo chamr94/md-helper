@@ -139,6 +139,7 @@ Samsung phones may block it earlier with **Auto Blocker**: Settings → Security
 ## 7. Updates
 
 - Each macro checks for a new version once a day and notifies you. Tap the notification to see **[Update]** at the top of the window; it downloads the new file and opens the import screen → save button at the bottom right → **[Overwrite]**. Settings and history stay.
+- If a permission prompt (e.g. accessibility service) appears after [Overwrite], grant it and tap the **save button once more**. MacroDroid deletes the old macro before saving, so leaving now leaves you without the macro (settings remain — just open the file again and save).
 - You can also check right away with **[Check for updates]** in the settings. Without "All files access" for MacroDroid it downloads with your browser.
 - If the macro was renamed (e.g. translated), the update comes in as a new macro — delete the old one afterwards.
 - **[Update MD Helper]** appears only when a helper feature that macro uses has changed. The first time you need "Allow from this source" and [Update]; after that it updates without asking.
