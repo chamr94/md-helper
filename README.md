@@ -25,8 +25,8 @@
 | 파일 | 매크로 | 언어 |
 |---|---|---|
 | `msg_helper.macro` | 💬 메시지 알리미 — 키워드 알림·자동응답 | 한국어·English |
-| `parkmap.macro` | 주차 위치 지도 — 차에서 내리면 주차 위치·층 기억 | 한국어·English |
-| `alarm_auto.macro` | ⏰ 알람 자동 설정 — Turbo Alarm 요일별 아침·점심·일정 알람 | 한국어 |
+| `parkmap.macro` | 🅿️ 주차 위치 지도 — 차에서 내리면 주차 위치·층 기억 | 한국어·English |
+| `alarm_auto.macro` | ⏰ 알람 자동 설정 — Turbo Alarm 요일별 아침·점심·일정 알람 | 한국어·English |
 
 - **업데이트 알림**: 매크로가 하루 한 번 이 저장소의 최신 릴리스(`versions.json`)를 확인해서, 새 버전이 나오면 알림을 한 번 띄웁니다.
   알림을 누르면 그 매크로 화면에 [업데이트]가 보이고, 누르면 새 파일을 받아 가져오기 화면을 엽니다(MacroDroid에 '모든 파일 접근'이
@@ -129,8 +129,8 @@ phone language (Korean or English).
 | File | Macro | Languages |
 |---|---|---|
 | `msg_helper.macro` | 💬 Message Alerts — keyword alerts and auto reply | Korean, English |
-| `parkmap.macro` | Parking Map — remembers where (and on which floor) you parked | Korean, English |
-| `alarm_auto.macro` | ⏰ Alarm Auto — Turbo Alarm weekday, lunch and calendar alarms | Korean only |
+| `parkmap.macro` | 🅿️ Parking Map — remembers where (and on which floor) you parked | Korean, English |
+| `alarm_auto.macro` | ⏰ Alarm Auto — Turbo Alarm weekday, lunch and calendar alarms | Korean, English |
 
 - **Update notifications**: each macro checks the latest release here (`versions.json`) once a day and shows one notification when a new
   version is out. Tap it to see [Update] in that macro's window; it downloads the new file and opens MacroDroid's import screen (without

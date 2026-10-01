@@ -34,6 +34,12 @@ final class Forward {
     private static Pattern pattern;
     private static String patternSrc = "";
     /** 같은 알림(키·올린 시각)은 한 번만 — MacroDroid도 이렇게 거름 */
+    private static final Map<String, String> LAST = new LinkedHashMap<String, String>(64, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, String> e) {
+            return size() > 200;
+        }
+    };
     private static final Map<String, Long> SEEN = new LinkedHashMap<String, Long>(64, 0.75f, true) {
         @Override
         protected boolean removeEldestEntry(Map.Entry<String, Long> e) {
@@ -100,6 +106,12 @@ final class Forward {
                 + SEP + (n.tickerText == null ? "" : n.tickerText.toString()) + SEP + str(x, Notification.EXTRA_TEXT);
         Pattern p = pattern(c);
         if (p == null || !p.matcher(raw).find()) return;
+        // 내용이 같은 갱신은 다시 넘기지 않음 — 메신저는 답장을 보내거나 읽음 처리할 때 같은 알림을 고쳐 여러 번 다시 올림
+        // (2026-10-01 가상 폰: 문자 하나에 8번 넘어가 매크로가 동시에 처리하며 답장을 두 번 보냈음)
+        synchronized (LAST) {
+            if (raw.equals(LAST.get(s.getKey()))) return;
+            LAST.put(s.getKey(), raw);
+        }
         final Intent i = new Intent(ACTION).setPackage(MD)
                 .putExtra("raw", raw).putExtra("key", s.getKey()).putExtra("t", String.valueOf(s.getPostTime()));
         final Context app = c.getApplicationContext();
