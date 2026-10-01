@@ -1,6 +1,6 @@
 # MD 도우미 · MD Helper
 
-**한국어** | [English](#english)
+**한국어** | [English](#english) · 만든 사람 / Made by **chajunoni**
 
 [MacroDroid](https://www.macrodroid.com/) 매크로가 부르면, MacroDroid만으로는 할 수 없는 일을 대신 하는 작은 안드로이드 앱입니다.
 화면 없이 뒤에서 답만 하고, **인터넷 권한이 없어서** 기억한 내용을 밖으로 보내지 않습니다.
@@ -19,7 +19,8 @@
 ## 매크로 받기 · 업데이트
 
 [Releases](../../releases/latest)에 이 도우미와 함께 쓰는 MacroDroid 매크로도 있습니다. `.macro` 파일을 폰에서 받아 누르면 MacroDroid가
-가져오기 화면을 엽니다(오른쪽 아래 저장 버튼 → 처음이 아니면 [덮어쓰기]).
+가져오기 화면을 엽니다(오른쪽 아래 저장 버튼 → 처음이 아니면 [덮어쓰기]). MacroDroid 템플릿(아래 '템플릿' 탭)에서도 받을 수 있습니다 —
+업데이트가 매크로를 이름으로 덮어쓰니 **매크로 이름은 바꾸지 마세요**. 화면 글자는 폰 언어(한국어·영어)를 따릅니다.
 
 | 파일 | 매크로 | 언어 |
 |---|---|---|
@@ -121,7 +122,9 @@ Works on Android 10+ (min SDK 29).
 ### Getting the macros · updates
 
 [Releases](../../releases/latest) also has the MacroDroid macros that use this helper. Download a `.macro` file on your phone and tap it;
-MacroDroid opens its import screen (save button at the bottom right → [Overwrite] if you already have it).
+MacroDroid opens its import screen (save button at the bottom right → [Overwrite] if you already have it). They are also in
+MacroDroid's Template Store — updates replace a macro by its name, so **please don't rename the macros**. The screens follow your
+phone language (Korean or English).
 
 | File | Macro | Languages |
 |---|---|---|
