@@ -85,7 +85,7 @@ Turns **Turbo Alarm** alarms on and off and creates them for you, following your
 ### First setup
 
 1. If Turbo Alarm isn't installed, the macro shows an install prompt → [Install] in the Play Store, open Turbo Alarm once, finish its intro and allow notifications.
-2. **Morning** tab, **Alarm name** (default "Work alarm"): the macro turns this Turbo Alarm alarm on and off and sets its time. The first time you **close** the settings window, it creates this morning alarm in Turbo Alarm for you (also if you install Turbo Alarm later). Renaming recreates it under the new name and deletes the old one.
+2. **Morning** tab, **Alarm name** (default "Work alarm"): the macro turns this Turbo Alarm alarm on and off and sets its time. The first time you **close** the settings window, it creates this morning alarm in Turbo Alarm for you (also if you install Turbo Alarm later). Renaming recreates it under the new name and deletes the old one. Rename it **only here** — if you rename or delete it in Turbo Alarm, the macro can't find it (a 'Please check your morning alarm' notification); tap **[Recreate in Turbo]** on the Morning tab to create it again with this name.
 3. **Morning** tab: on/off and time per weekday (24-hour), sound, volume and vibration, day-off keywords (e.g. vacation, PTO — morning and lunch alarms are off that day), also off on public holidays, extra-shift keywords (rings a set time before that event).
 4. **Lunch** tab: weekday and extra-shift times (to the second), only when at the office (tap [Set current location as office] there), [Test now].
 5. **Events** tab: minutes before events, per-keyword lead times (e.g. airport|flight=120, dentist=30), keywords to skip, event alarm sound.
