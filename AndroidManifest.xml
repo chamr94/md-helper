@@ -70,12 +70,13 @@
             android:name=".PressureReceiver"
             android:exported="true" />
 
-        <!-- 알림 전달(메시지 알리미): 거르기 정규식을 받거나(SET_FILTER) 상태를 'FWD=;L=;V=;N='으로 답함 -->
+        <!-- 알림 전달(메시지 알리미): 거르기 정규식을 받거나(SET_FILTER) 매크로가 하나를 다 처리했다는 알림(ACK)을 받거나 상태를 'FWD=;L=;V=;N='으로 답함 -->
         <receiver
             android:name=".FwdReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.mdhelper.SET_FILTER" />
+                <action android:name="com.mdhelper.ACK" />
             </intent-filter>
         </receiver>
 
