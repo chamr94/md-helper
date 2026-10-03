@@ -54,6 +54,10 @@
 
 <img src="img/ko/msg_popup.png" width="280"> <img src="img/ko/msg_list.png" width="280">
 
+실제로 쓰는 모습이에요. 왼쪽: 잠긴 사이 온 키워드 문자를 잠금을 풀 때 **🔔 새 알림** 창에 모아 보여 줘요. 오른쪽: 알림을 누르면 그 대화방이 바로 열리고, 바쁠 때는 자동응답이 나가요.
+
+<img src="img/ko/msg_arrive.gif" width="280"> <img src="img/ko/msg_autoreply.gif" width="280">
+
 ## 4. 🅿️ 주차 위치 지도
 
 차에서 내리면(차 블루투스가 끊기거나 안드로이드 오토가 끝나면) 주차 위치를 저장해요. 트리거에서 차를 고를 필요 없이 블루투스 기기 종류로 차를 알아봐요(렌트카도). 필요: **위치** 권한.
@@ -76,6 +80,12 @@
 
 <img src="img/ko/park_map.png" width="360">
 
+<img src="img/ko/park_nav_menu.png" width="280"> <img src="img/ko/park_route.png" width="280">
+
+왼쪽 GIF: **[여기로 다시 저장]**을 누르면 지금 위치를 저장하고 지도에 바로 표시해요. 오른쪽 GIF: 핀을 누르면 네이버·카카오·구글 지도 중 하나로 걷는 길을 안내해요(예시는 약 10분 거리).
+
+<img src="img/ko/park_save.gif" width="280"> <img src="img/ko/park_nav.gif" width="280">
+
 ## 5. ⏰ 알람 자동 설정
 
 **Turbo Alarm** 앱의 알람을 요일·캘린더·공휴일에 맞춰 알아서 켜고 끄고 만들어요. 필요: Turbo Alarm 앱, **캘린더** 권한. 캘린더(구글·삼성)와 공휴일 캘린더는 폰마다 알아서 골라요.
@@ -90,7 +100,9 @@
 
 <img src="img/ko/alarm_turbo.png" width="360">
 
-<img src="img/ko/alarm_morning.png" width="280"> <img src="img/ko/alarm_events.png" width="280">
+<img src="img/ko/alarm_morning.png" width="280"> <img src="img/ko/alarm_lunch.png" width="280">
+
+<img src="img/ko/alarm_events.png" width="360">
 
 ### 쓰는 법
 
@@ -99,6 +111,12 @@
 - 일정 메모에 "13시 출발", "40분 전에 알려줘", "1시간 전 준비"처럼 적으면 그 시각에 맞춰요.
 
 <img src="img/ko/alarm_status.png" width="280"> <img src="img/ko/turbo_list.png" width="280">
+
+주 기능은 **캘린더 일회성 알람**이에요. 캘린더에 일정을 넣고 메모에 "15시 출발"처럼 적으면 그 시각에 맞춰, 현황에 뜨고 Turbo Alarm에 "(일회성)…" 알람으로 실제로 만들어져요.
+
+<img src="img/ko/alarm_calendar.png" width="280"> <img src="img/ko/alarm_calday.png" width="280">
+
+<img src="img/ko/alarm_schedule.gif" width="360">
 
 ## 6. 🧩 MD 도우미 (선택) — 설치와 Play 프로텍트 우회
 

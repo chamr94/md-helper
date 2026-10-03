@@ -56,6 +56,10 @@ Alerts you only for messenger notifications that contain your keywords, and repl
 
 <img src="img/en/msg_popup.png" width="280"> <img src="img/en/msg_list.png" width="280">
 
+Here it is in action (Korean UI). Left: unread keyword texts are collected into the **🔔 new alert** window when you unlock. Right: tapping an alert opens the exact chat, and an auto reply goes out when you are busy.
+
+<img src="img/ko/msg_arrive.gif" width="280"> <img src="img/ko/msg_autoreply.gif" width="280">
+
 ## 4. 🅿️ Parking Map
 
 Saves your parking spot when you get out of the car (car Bluetooth disconnects or Android Auto ends). No need to pick your car: it recognizes car Bluetooth by device type (rental cars too). Needs **location** permission.
@@ -78,6 +82,12 @@ Saves your parking spot when you get out of the car (car Bluetooth disconnects o
 
 <img src="img/en/park_map.png" width="360">
 
+<img src="img/ko/park_nav_menu.png" width="280"> <img src="img/ko/park_route.png" width="280">
+
+Left GIF: **[Save again]** stores your current spot and shows it on the map. Right GIF: tapping the pin gives walking directions in Naver / Kakao / Google Maps (the example is about a 10-minute walk; Korean UI).
+
+<img src="img/ko/park_save.gif" width="280"> <img src="img/ko/park_nav.gif" width="280">
+
 ## 5. ⏰ Alarm Auto
 
 Turns **Turbo Alarm** alarms on and off and creates them for you, following your weekdays, calendar and public holidays. Needs the Turbo Alarm app and **calendar** permission. Your calendar and holiday calendar are picked automatically.
@@ -92,6 +102,8 @@ Turns **Turbo Alarm** alarms on and off and creates them for you, following your
 
 <img src="img/en/alarm_morning.png" width="280"> <img src="img/en/alarm_events.png" width="280">
 
+<img src="img/ko/alarm_turbo.png" width="360">
+
 ### Using it
 
 - Changes are applied to Turbo Alarm within 1–2 seconds. The **Status** tab shows the next morning alarm and a 7-day preview.
@@ -99,6 +111,12 @@ Turns **Turbo Alarm** alarms on and off and creates them for you, following your
 - Write "leave at 1 pm", "remind me 40 min before" or "prep 1 hour before" in the event note and it uses that time.
 
 <img src="img/en/alarm_status.png" width="280"> <img src="img/en/alarm_lunch.png" width="280">
+
+The main feature is **one-time calendar alarms**. Add a calendar event (write "leave at 3 pm" in the note and it matches that time); it appears in Status and is really created in Turbo Alarm as a "(Once)…" alarm.
+
+<img src="img/ko/alarm_calendar.png" width="280"> <img src="img/ko/alarm_calday.png" width="280">
+
+<img src="img/ko/alarm_schedule.gif" width="360">
 
 ## 6. 🧩 MD Helper (optional) — installing it past Play Protect
 
