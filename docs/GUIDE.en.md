@@ -56,9 +56,9 @@ Alerts you only for messenger notifications that contain your keywords, and repl
 
 <img src="img/en/msg_popup.png" width="280"> <img src="img/en/msg_list.png" width="280">
 
-Here it is in action (Korean UI). Left: a keyword text arrives on the home screen → the **🔔 new alert** window pops up → tapping the alert opens that chat. Right: with auto reply on it answers for you; tapping the alert in the list opens the chat with the reply.
+Here it is in action (Korean UI, waiting cut out): ① open the window from the tile → **Settings**, keyword and auto-reply tabs → ② waiting on the home screen, a keyword text arrives → the **🔔 new alert** window pops up → tapping the alert opens that chat → ③ turn on **auto reply** in the list window → the next text gets an instant reply (🤖 auto-replied) → tapping it opens the chat with the reply.
 
-<img src="img/ko/msg_arrive.gif" width="280"> <img src="img/ko/msg_autoreply.gif" width="280">
+<img src="img/ko/msg_tour.gif" width="360">
 
 ## 4. 🅿️ Parking Map
 
