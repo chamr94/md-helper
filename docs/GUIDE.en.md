@@ -92,31 +92,33 @@ Here it is in action (Korean UI on an emulator — car Bluetooth connect/disconn
 
 Turns **Turbo Alarm** alarms on and off and creates them for you, following your weekdays, calendar and public holidays. Needs the Turbo Alarm app and **calendar** permission. Your calendar and holiday calendar are picked automatically.
 
+Here it is in action (Korean UI, waiting cut out): ① open it from the tile → **Status** → ② on the **Main** tab turn on Sunday at 18:00 — Status and Turbo Alarm update right away → ③ **Extra** tab: turn on the extra alert and [Test now] → ④ **Events** tab → ⑤ **save a calendar event (tomorrow 10:00 dentist)** — the event alarm shows in Status and Turbo Alarm gets a **"(Once)10:00 dentist"** alarm set 10 minutes before (9:50) by itself.
+
+<img src="img/ko/alarm_tour.gif" width="360">
+
 ### First setup
 
 1. If Turbo Alarm isn't installed, the macro shows an install prompt → [Install] in the Play Store, open Turbo Alarm once, finish its intro and allow notifications.
-2. **Morning** tab, **Alarm name** (default "Work alarm"): the macro turns this Turbo Alarm alarm on and off and sets its time. The first time you **close** the settings window, it creates this morning alarm in Turbo Alarm for you (also if you install Turbo Alarm later). Renaming recreates it under the new name and deletes the old one. Rename it **only here** — if you rename or delete it in Turbo Alarm, the macro can't find it (a 'Please check your morning alarm' notification); tap **[Recreate in Turbo]** on the Morning tab to create it again with this name.
-3. **Morning** tab: on/off and time per weekday (24-hour), sound, volume and vibration, day-off keywords (e.g. vacation, PTO — morning and lunch alarms are off that day), also off on public holidays, extra-shift keywords (rings a set time before that event).
-4. **Lunch** tab: weekday and extra-shift times (to the second), only when at the office (tap [Set current location as office] there), [Test now].
+2. **Main** tab, **Main alarm name** (default "Work alarm"): the macro turns this Turbo Alarm alarm on and off and sets its time. The first time you **close** the settings window, it creates this main alarm in Turbo Alarm for you (also if you install Turbo Alarm later). Renaming recreates it under the new name and deletes the old one. Rename it **only here** — if you rename or delete it in Turbo Alarm, the macro can't find it (a 'Please check your main alarm' notification); tap **[Recreate in Turbo]** on the Main tab to create it again with this name.
+3. **Main** tab: on/off and time per weekday (24-hour), sound, volume and vibration, day-off keywords (e.g. vacation, PTO — the main alarm and extra alert are off that day), also off on public holidays, extra-shift keywords (rings a set time before that event).
+4. **Extra** tab (an extra alert, e.g. for lunch break): weekday and extra-shift times (to the second), only at a set place (tap [Set current location as the place] there), [Test now].
 5. **Events** tab: minutes before events, per-keyword lead times (e.g. airport|flight=120, dentist=30), keywords to skip, event alarm sound.
 
-<img src="img/en/alarm_morning.png" width="280"> <img src="img/en/alarm_events.png" width="280">
+<img src="img/en/alarm_morning.png" width="280"> <img src="img/en/alarm_lunch.png" width="280">
 
-<img src="img/ko/alarm_turbo.png" width="360">
+<img src="img/en/alarm_events.png" width="360">
 
 ### Using it
 
-- Changes are applied to Turbo Alarm within 1–2 seconds. The **Status** tab shows the next morning alarm and a 7-day preview.
-- Event alarms are created in Turbo Alarm 24 hours ahead as "(Once)time title", and change or disappear when the event changes.
+- Changes are applied to Turbo Alarm within 1–2 seconds. The **Status** tab shows the next main alarm, a 7-day preview, the extra alert and event alarms.
+- Event alarms are created in Turbo Alarm 24 hours ahead as **"(Once)start time title"** (they ring earlier by the reminder — a 10:00 event with a 10-minute reminder rings at 9:50), and change or disappear when the event changes. A one-time alarm is deleted once you dismiss it.
 - Write "leave at 1 pm", "remind me 40 min before" or "prep 1 hour before" in the event note and it uses that time.
 
-<img src="img/en/alarm_status.png" width="280"> <img src="img/en/alarm_lunch.png" width="280">
+<img src="img/en/alarm_status.png" width="280"> <img src="img/ko/alarm_turbo.png" width="280">
 
-The main feature is **one-time calendar alarms**. Add a calendar event (write "leave at 3 pm" in the note and it matches that time); it appears in Status and is really created in Turbo Alarm as a "(Once)…" alarm.
+Time from the note, for example: write "leave at 3 pm" in the note of a 4 pm "client meeting" and a one-time alarm rings at 3 pm.
 
 <img src="img/ko/alarm_calendar.png" width="280"> <img src="img/ko/alarm_calday.png" width="280">
-
-<img src="img/ko/alarm_schedule.gif" width="360">
 
 ## 6. 🧩 MD Helper (optional) — installing it past Play Protect
 
@@ -182,5 +184,6 @@ Some MacroDroid features (writing secure settings, the Logcat trigger, reading s
 
 - **Nothing opens**: check that MacroDroid's main switch and the macro are on.
 - **Tile and widget names are Korean** (English phones): they are fixed names — use the icons (alarm, chat bubble, car).
+- **A widget does nothing after an update**: from the 2026.10.04 version on, widgets reconnect by themselves a few seconds after an update. Only for the first update to that version: if it doesn't respond, turn the screen off and on once or open the macro from its tile once (no need to remove and re-add the widget).
 - **No alerts** (Message Alerts): make sure the app names match the names shown in notifications and keyword alerts are on.
 - Questions and bug reports are welcome in the comments. Thanks!
