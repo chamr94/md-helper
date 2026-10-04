@@ -92,7 +92,7 @@ Here it is in action (Korean UI on an emulator — car Bluetooth connect/disconn
 
 Turns **Turbo Alarm** alarms on and off and creates them for you, following your weekdays, calendar and public holidays. Needs the Turbo Alarm app and **calendar** permission. Your calendar and holiday calendar are picked automatically.
 
-Here it is in action (Korean UI, waiting cut out): ① open it from the tile → **Status** → ② on the **Main** tab turn on Sunday at 18:00 — Status and Turbo Alarm update right away → ③ **Extra** tab: turn on the extra alert and [Test now] → ④ **Events** tab → ⑤ **save a calendar event (tomorrow 10:00 dentist)** — the event alarm shows in Status and Turbo Alarm gets a **"(Once)10:00 dentist"** alarm set 10 minutes before (9:50) by itself.
+Here it is in action (Korean UI, waiting cut out): ① open it from the tile → **Status** → ② on the **Main** tab turn on Sunday at 18:00 — Status and Turbo Alarm update right away → ③ **Extra** tab: turn on the extra alert and [Test now] → ④ **Events** tab → ⑤ **save a calendar event (tomorrow 10:00 dentist)** — the event alarm shows in Status and Turbo Alarm gets a **"(Once)10:00 dentist"** alarm set 10 minutes before (9:50) by itself → ⑥ write **"leave at 11"** in the note of a 12:00 event and its one-time alarm rings at 11:00 (Status shows the start time and the note too).
 
 <img src="img/ko/alarm_tour.gif" width="360">
 
