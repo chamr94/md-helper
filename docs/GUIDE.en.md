@@ -84,9 +84,9 @@ Saves your parking spot when you get out of the car (car Bluetooth disconnects o
 
 <img src="img/ko/park_nav_menu.png" width="280"> <img src="img/ko/park_route.png" width="280">
 
-Left GIF: **[Save again]** stores your current spot and shows it on the map. Right GIF: tapping the pin gives walking directions in Naver / Kakao / Google Maps (the example is about a 10-minute walk; Korean UI).
+Here it is in action (Korean UI on an emulator — car Bluetooth connect/disconnect is simulated, waiting cut out): ① get out of the car (car Bluetooth disconnects) → the spot is saved with a notification → ② tap it for the map; about a 10-minute walk away, tap the pin for **walking directions in Naver Map** → ③ at home, **[Set current location as Home]** and the floor list → ④ after a few parkings at home the pressure per floor builds up, and when you get out it **guesses the floor and pre-selects it** (B2 98% → one tap on [✓ B2 — correct]).
 
-<img src="img/ko/park_save.gif" width="280"> <img src="img/ko/park_nav.gif" width="280">
+<img src="img/ko/park_tour.gif" width="360">
 
 ## 5. ⏰ Alarm Auto
 
