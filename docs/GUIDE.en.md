@@ -56,7 +56,7 @@ Alerts you only for messenger notifications that contain your keywords, and repl
 
 <img src="img/en/msg_popup.png" width="280"> <img src="img/en/msg_list.png" width="280">
 
-Here it is in action (Korean UI). Left: unread keyword texts are collected into the **🔔 new alert** window when you unlock. Right: tapping an alert opens the exact chat, and an auto reply goes out when you are busy.
+Here it is in action (Korean UI). Left: a keyword text arrives on the home screen → the **🔔 new alert** window pops up → tapping the alert opens that chat. Right: with auto reply on it answers for you; tapping the alert in the list opens the chat with the reply.
 
 <img src="img/ko/msg_arrive.gif" width="280"> <img src="img/ko/msg_autoreply.gif" width="280">
 
@@ -68,7 +68,7 @@ Saves your parking spot when you get out of the car (car Bluetooth disconnects o
 
 1. Open the window → **[Settings]** at the bottom → at home (or your garage entrance) tap **[Set current location as Home]**. The Wi-Fi you are on is remembered as your home Wi-Fi.
 2. **Floor list**: your home garage floors, one per line (max 12). It asks with these buttons when you park at home.
-3. **Car recognition**: install MD Helper (section 6). Without it, run once from a PC: `adb shell pm grant com.arlosoft.macrodroid android.permission.DUMP` (with neither, it saves only when Android Auto ends).
+3. **Car recognition**: install MD Helper (section 6). Without it, give MacroDroid the `DUMP` permission once — without a PC using the **MD Helper — adb** app (section 6-2), or from a PC: `adb shell pm grant com.arlosoft.macrodroid android.permission.DUMP` (with neither, it saves only when Android Auto ends).
 
 <img src="img/en/park_settings.png" width="360">
 
@@ -153,6 +153,22 @@ Samsung phones may block it earlier with **Auto Blocker**: Settings → Security
 4. For Parking Map, also tap **[Grant Bluetooth permission]** in MD Helper (car recognition).
 
 <img src="img/common/helper_restricted.png" width="280"> <img src="img/common/helper_allow_restricted.png" width="280">
+
+## 6-2. 🔑 adb permissions without a PC (optional) — MD Helper · adb
+
+Some MacroDroid features (writing secure settings, the Logcat trigger, reading state with `dumpsys`, …) need permissions that are normally granted with adb from a PC. The **MD Helper — adb** app runs those commands on the phone itself through Android’s built-in **Wireless debugging**. You pair once with a 6-digit code. Download and full guide (with GIF): https://github.com/chamr94/md-helper-adb
+
+- MacroDroid: `WRITE_SECURE_SETTINGS`, `CHANGE_CONFIGURATION`, `DUMP`, `READ_LOGS`, `SET_VOLUME_KEY_LONG_PRESS_LISTENER` + usage access.
+- If the official **MacroDroid Helper** is missing, it downloads it from the official link and installs it (on Android 14+ this used to need a PC) + `WRITE_SECURE_SETTINGS` and a battery-optimization exemption. Tap **[Continue] → [OK]** on the screens that follow.
+- If MD Helper is installed, it also turns on its notification access, so the "Restricted setting" step in ③ disappears.
+- Needs Android 11+ and Wi-Fi.
+
+1. Open the app → **[Grant permissions over Wireless debugging] → [Continue]**.
+2. The first time, turn on the accessibility service **MD Helper setup guide** — it points to the next step on each Settings screen with a banner.
+3. Follow the banners: **Build number ×7 → Developer options → turn on Wireless debugging → Pair device with pairing code**.
+4. When the 6-digit code appears, **pull down the shade, type the code into the banner notification and send it** → **✅ Done**. You may turn Wireless debugging off again.
+
+<img src="https://raw.githubusercontent.com/chamr94/md-helper-adb/main/docs/img/03-code.png" width="280"> <img src="https://raw.githubusercontent.com/chamr94/md-helper-adb/main/docs/img/04-done.png" width="280">
 
 ## 7. Updates
 

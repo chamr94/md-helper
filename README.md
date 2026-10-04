@@ -9,6 +9,8 @@
 📖 **사용 설명서(사진 포함)**: [한국어](docs/GUIDE.ko.md) · [English](docs/GUIDE.en.md) — 매크로 3개 설치·사용법, 빠른 설정 타일·위젯,
 MD 도우미 설치(Play 프로텍트에 막힐 때 포함).
 
+🔑 **PC 없이 adb 권한 주기**: [MD 도우미 — adb 권한](https://github.com/chamr94/md-helper-adb) — 무선 디버깅으로 MacroDroid에 `WRITE_SECURE_SETTINGS`·`DUMP`·`READ_LOGS` 등을 주고, MacroDroid 공식 헬퍼도 설치해 줍니다(별도 앱, 선택).
+
 ## 설치
 
 1. [Releases](../../releases/latest)에서 `mdhelper.apk`를 받아 설치합니다(처음이면 '이 출처 허용'을 한 번 켜야 합니다).
@@ -65,7 +67,7 @@ MD 도우미 설치(Play 프로텍트에 막힐 때 포함).
 - **메시지 알리미** — 목록·새 알림 창에서 누르면 그 대화방·메일을 바로 엽니다(도우미가 없으면 알림창에 남은 알림만, 없으면 앱만 엶).
   도우미가 알림을 먼저 걸러 넘겨서 MacroDroid가 모든 알림마다 돌지 않고, 자동응답도 도우미가 답장 칸으로 보냅니다
   (도우미가 없거나 응답하지 않으면 MacroDroid의 '알림이 오면' 트리거로 예전처럼 동작).
-- **주차 위치 지도** — 차 블루투스를 트리거에서 고르지 않아도 알아보고(도우미가 없으면 MacroDroid에 DUMP 권한을 PC에서 따로 줘야 함),
+- **주차 위치 지도** — 차 블루투스를 트리거에서 고르지 않아도 알아보고(도우미가 없으면 MacroDroid에 DUMP 권한을 따로 줘야 함 — PC 또는 [adb 권한 앱](https://github.com/chamr94/md-helper-adb)),
   집 주차장에서 기압으로 몇 층인지 짐작해 먼저 골라 둡니다(도우미가 없으면 짐작 없이 고르기만).
 
 ## 빌드
@@ -117,6 +119,8 @@ Settings → Apps → MD Helper → Language.
 
 📖 **Illustrated guide**: [English](docs/GUIDE.en.md) · [한국어](docs/GUIDE.ko.md) — installing and using the three macros,
 Quick Settings tiles and widgets, and installing MD Helper (including when Play Protect blocks it).
+
+🔑 **adb permissions without a PC**: [MD Helper — adb](https://github.com/chamr94/md-helper-adb) — grants MacroDroid `WRITE_SECURE_SETTINGS`, `DUMP`, `READ_LOGS` and more over Wireless debugging, and installs the official MacroDroid Helper (separate app, optional).
 
 ### Install
 
@@ -179,7 +183,7 @@ phone language (Korean or English).
   The helper also filters notifications first, so MacroDroid no longer runs for every notification, and sends auto replies through the
   notification's reply field (without the helper, or if it stops answering, the macro falls back to MacroDroid's notification trigger).
 - **Parking Map** — recognizes your car without picking it in the trigger (without the helper, MacroDroid needs the DUMP permission
-  granted from a PC), and at your Home garage guesses the floor from air pressure and pre-selects it (without the helper, you pick it yourself).
+  — from a PC or the [adb app](https://github.com/chamr94/md-helper-adb)), and at your Home garage guesses the floor from air pressure and pre-selects it (without the helper, you pick it yourself).
 
 ### Build
 

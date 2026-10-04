@@ -54,7 +54,7 @@
 
 <img src="img/ko/msg_popup.png" width="280"> <img src="img/ko/msg_list.png" width="280">
 
-실제로 쓰는 모습이에요. 왼쪽: 잠긴 사이 온 키워드 문자를 잠금을 풀 때 **🔔 새 알림** 창에 모아 보여 줘요. 오른쪽: 알림을 누르면 그 대화방이 바로 열리고, 바쁠 때는 자동응답이 나가요.
+실제로 쓰는 모습이에요. 왼쪽: 홈 화면에서 키워드 문자가 오면 **🔔 새 알림** 창이 바로 뜨고, 알림을 누르면 그 대화방이 열려요. 오른쪽: 자동응답을 켜 두면 바쁠 때 대신 답장하고, 목록에서 누르면 답장이 나간 대화방이 열려요.
 
 <img src="img/ko/msg_arrive.gif" width="280"> <img src="img/ko/msg_autoreply.gif" width="280">
 
@@ -66,7 +66,7 @@
 
 1. 창을 열고 맨 아래 **[설정]** → 집(또는 집 주차장 입구)에서 **[지금 위치를 집으로 지정]**. 그때 붙어 있는 Wi-Fi를 집 Wi-Fi로 기억해요.
 2. **층 목록**: 집 주차장의 층을 한 줄에 하나씩(최대 12개). 집에서 내릴 때 이 버튼들로 물어봐요.
-3. **차 알아보기**: MD 도우미(아래 6번)를 설치하면 끝이에요. 도우미 없이 쓰려면 PC에서 한 번 `adb shell pm grant com.arlosoft.macrodroid android.permission.DUMP` (둘 다 없으면 안드로이드 오토가 끝날 때만 저장).
+3. **차 알아보기**: MD 도우미(아래 6번)를 설치하면 끝이에요. 도우미 없이 쓰려면 MacroDroid에 `DUMP` 권한을 한 번 주면 돼요 — PC 없이 **MD 도우미 — adb 권한** 앱(아래 6-2)으로, 또는 PC에서 `adb shell pm grant com.arlosoft.macrodroid android.permission.DUMP` (둘 다 없으면 안드로이드 오토가 끝날 때만 저장).
 
 <img src="img/ko/park_settings.png" width="360">
 
@@ -153,6 +153,22 @@ MacroDroid만으로는 못 하는 일을 대신 하는 작은 앱이에요(**인
 4. 주차 위치 지도를 쓰면 도우미 화면의 **[블루투스 권한 허용]**도 눌러 주세요(차 알아보기).
 
 <img src="img/common/helper_restricted.png" width="280"> <img src="img/common/helper_allow_restricted.png" width="280">
+
+## 6-2. 🔑 PC 없이 adb 권한 주기 (선택) — MD 도우미 · adb 권한
+
+MacroDroid의 몇몇 기능(보안 설정 쓰기, 로그캣 트리거, `dumpsys`로 상태 읽기 등)은 PC에서 adb 명령으로 주는 권한이 있어야 해요. **MD 도우미 — adb 권한** 앱은 폰에 들어 있는 **무선 디버깅**으로 그 명령을 폰 안에서 대신 실행해요. 6자리 코드로 한 번만 페어링하면 돼요. 받기·자세한 사용법(GIF): https://github.com/chamr94/md-helper-adb
+
+- MacroDroid: `WRITE_SECURE_SETTINGS`, `CHANGE_CONFIGURATION`, `DUMP`, `READ_LOGS`, `SET_VOLUME_KEY_LONG_PRESS_LISTENER` + 사용 기록 접근.
+- MacroDroid **공식 헬퍼**가 없으면 공식 주소에서 받아 설치해요(안드로이드 14부터는 PC로만 설치되던 것) + `WRITE_SECURE_SETTINGS`·배터리 최적화 예외. 설치 뒤 이어서 뜨는 화면에서 **[계속] → [확인]**.
+- MD 도우미가 깔려 있으면 알림 접근도 켜 줘서 위 ③의 "제한된 설정" 단계가 없어져요.
+- 안드로이드 11 이상, Wi-Fi에 연결된 상태가 필요해요.
+
+1. 앱을 열고 **[무선 디버깅으로 권한 주기] → [진행]**.
+2. 처음 한 번 접근성의 **MD 도우미 설정 안내**를 켜면, 설정 화면마다 다음에 누를 곳을 배너로 알려 줘요.
+3. 배너를 따라 **빌드번호 7번 → 개발자 옵션 → 무선 디버깅 켜기 → 페어링 코드로 기기 페어링**.
+4. 6자리 코드가 뜨면 **알림창을 내려 배너 알림의 입력칸에 코드를 넣고 보내요** → **✅ 완료**. 무선 디버깅은 다시 꺼도 돼요.
+
+<img src="https://raw.githubusercontent.com/chamr94/md-helper-adb/main/docs/img/03-code.png" width="280"> <img src="https://raw.githubusercontent.com/chamr94/md-helper-adb/main/docs/img/04-done.png" width="280">
 
 ## 7. 업데이트
 
