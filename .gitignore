@@ -5,3 +5,6 @@ build/
 # 서명 키는 올리지 않음 (덮어 설치에 필요한 키 — 로컬에만 보관)
 *.keystore
 *.jks
+# 로컬 빌드 도구 파일(올리지 않음)
+.gradle/
+local.properties
