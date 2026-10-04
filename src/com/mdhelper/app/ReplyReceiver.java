@@ -22,20 +22,20 @@ public class ReplyReceiver extends BroadcastReceiver {
         String text = i.getStringExtra("text");
         NotiService svc = NotiService.instance;
         if (svc == null || key == null || text == null || text.isEmpty()) {
-            setResultData("ERR");
+            result("ERR");
             return;
         }
         try {
             StatusBarNotification[] found = svc.getActiveNotifications(new String[]{key});
             if (found == null || found.length == 0 || found[0] == null) {
-                setResultData("GONE");
+                result("GONE");
                 return;
             }
             Notification n = found[0].getNotification();
             Notification.Action a = replyAction(n.actions);
             if (a == null) a = replyAction(new Notification.WearableExtender(n).getActions().toArray(new Notification.Action[0]));
             if (a == null) {
-                setResultData("NOREPLY");
+                result("NOREPLY");
                 return;
             }
             RemoteInput[] ins = a.getRemoteInputs();
@@ -44,10 +44,10 @@ public class ReplyReceiver extends BroadcastReceiver {
             Intent fill = new Intent();
             RemoteInput.addResultsToIntent(ins, fill, values);
             a.actionIntent.send(c, 0, fill);
-            setResultData("OK");
+            result("OK");
         } catch (Exception e) {
             Log.w("MDHelper", "reply failed", e);
-            setResultData("ERR");
+            result("ERR");
         }
     }
 
@@ -66,5 +66,10 @@ public class ReplyReceiver extends BroadcastReceiver {
             if (any == null) any = a;
         }
         return any;
+    }
+
+    /** 결과는 결과를 기다리는 방송(am broadcast)일 때만 — MacroDroid '인텐트 보내기'는 일반 방송이라 결과를 쓰면 오류 줄만 남음(2026-10-04) */
+    private void result(String r) {
+        if (isOrderedBroadcast()) setResultData(r);
     }
 }

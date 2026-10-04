@@ -89,6 +89,32 @@
             </intent-filter>
         </receiver>
 
+        <!-- 보안 잠금 빠른 덮개: 잠근 앱이 앞에 오는 순간 덮개를 그림(접근성 — 창이 바뀌는 것만 받고 화면 내용은 읽지 않음) -->
+        <service
+            android:name=".LockService"
+            android:exported="true"
+            android:label="@string/lock_service_label"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/lock_service" />
+        </service>
+
+        <!-- 보안 잠금 매크로가 잠글 앱·유예·통과를 알려 줌(SET_LOCK·LOCK_ASK·LOCK_PASS·LOCK_SKIP) -->
+        <receiver
+            android:name=".LockReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.mdhelper.SET_LOCK" />
+                <action android:name="com.mdhelper.LOCK_PASS" />
+                <action android:name="com.mdhelper.LOCK_ASK" />
+                <action android:name="com.mdhelper.LOCK_SKIP" />
+            </intent-filter>
+        </receiver>
+
         <!-- 알림 접근: 알림이 올 때마다 여는 방법(PendingIntent)을 메모리에 담아 둠 -->
         <service
             android:name=".NotiService"

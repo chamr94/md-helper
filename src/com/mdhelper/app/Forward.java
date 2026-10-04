@@ -8,10 +8,13 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
+import android.os.Parcelable;
 import android.service.notification.StatusBarNotification;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -21,6 +24,8 @@ import java.util.regex.Pattern;
  * MacroDroid로 넘깁니다. 그동안 MacroDroid는 모든 알림마다 돌던 '알림이 오면' 트리거를 끄고 이 전달(인텐트 받기 트리거)만 받습니다.
  * 넘기는 글자는 MacroDroid 알림 트리거의 값과 같게: 앱 이름␞패키지␞제목(android.title)␞부제(android.subText)␞티커␞본문(android.text)
  * (MacroDroid 5.67.8 NotificationService·MagicTextReplacer 코드로 확인 — {notification}은 android.text).
+ * 대화형 알림(메신저 — 알림 속 메시지 목록 android.messages)은 목록에서 이번에 새로 온 메시지를 하나씩 넘김(2026-10-04, 전달 판 4):
+ * 메신저는 거의 동시에 온 메시지를 알림 하나로 합쳐 내용(android.text)엔 마지막 것만 보여서 앞 메시지를 놓쳤음(가상 폰 — 구글 메시지).
  */
 final class Forward {
     static final String ACTION = "com.mdhelper.NOTI";
@@ -62,6 +67,66 @@ final class Forward {
 
     static SharedPreferences prefs(Context c) {
         return c.getSharedPreferences("forward", Context.MODE_PRIVATE);
+    }
+
+    /**
+     * 대화방(알림 키)마다 '처음 본 때|넘긴 메시지 시각들' — 다시 시작해도 남게 파일에(3일 지난 방은 지움). 시각 하나(마지막으로 넘긴 것)로만 거르면
+     * 안 됨: 메신저가 합친 알림에 마지막 메시지만 넣었다가 다음 알림에 앞 메시지를 넣기도 함(2026-10-04 가상 폰 — 구글 메시지: 두 번째 문자가 먼저,
+     * 첫 문자는 0.4초 뒤 알림에 — 시각이 더 이르다고 건너뛰어 놓쳤음)
+     */
+    static SharedPreferences msgPrefs(Context c) {
+        return c.getSharedPreferences("msgseen", Context.MODE_PRIVATE);
+    }
+
+    static final long FIRST_MS = 60000;                 // 처음 보는 대화방은 알림 1분 안에 온 메시지만(예전 메시지를 쏟아내지 않게)
+    static final long MSG_KEEP_MS = 3L * 24 * 3600 * 1000;
+    static final int SEEN_MAX = 40;                     // 방마다 기억하는 넘긴 메시지 수(넘치면 오래된 것부터 빼고 '처음 본 때'를 그만큼 올림)
+
+    /** 알림 속 메시지 목록의 한 줄: 보낸 사람(빈 글자 = 이 폰 사용자가 보낸 것)·글·시각 */
+    static final class Msg {
+        String sender = "", text = "";
+        long time;
+    }
+
+    static List<Msg> messages(Bundle x) {
+        List<Msg> out = new ArrayList<Msg>();
+        if (x == null) return out;
+        Parcelable[] arr;
+        try {
+            arr = x.getParcelableArray(Notification.EXTRA_MESSAGES);
+        } catch (Exception e) {
+            return out;
+        }
+        if (arr == null) return out;
+        for (Parcelable p : arr) {
+            if (!(p instanceof Bundle)) continue;
+            Bundle b = (Bundle) p;
+            Msg m = new Msg();
+            CharSequence t = b.getCharSequence("text");
+            m.text = t == null ? "" : t.toString();
+            m.time = b.getLong("time", 0);
+            CharSequence sd = b.getCharSequence("sender");
+            String sender = sd == null ? "" : sd.toString();
+            if (sender.isEmpty()) {
+                try {
+                    Parcelable pp = b.getParcelable("sender_person");
+                    if (pp instanceof android.app.Person) {
+                        CharSequence nm = ((android.app.Person) pp).getName();
+                        sender = nm == null ? "" : nm.toString();
+                    }
+                } catch (Exception ignored) {
+                }
+            }
+            m.sender = sender;
+            out.add(m);
+        }
+        return out;
+    }
+
+    static Intent intent(String raw, StatusBarNotification s, long when) {
+        return new Intent(ACTION).setPackage(MD)
+                .putExtra("raw", raw).putExtra("key", s.getKey()).putExtra("t", String.valueOf(s.getPostTime()))
+                .putExtra("w", String.valueOf(when));
     }
 
     static boolean on(Context c) {
@@ -115,32 +180,106 @@ final class Forward {
             SEEN.put(s.getKey(), s.getPostTime());
         }
         Bundle x = n.extras;
-        String raw = appName(c, pkg) + SEP + pkg + SEP + str(x, Notification.EXTRA_TITLE) + SEP + str(x, Notification.EXTRA_SUB_TEXT)
-                + SEP + (n.tickerText == null ? "" : n.tickerText.toString()) + SEP + str(x, Notification.EXTRA_TEXT);
+        String app = appName(c, pkg), title = str(x, Notification.EXTRA_TITLE), sub = str(x, Notification.EXTRA_SUB_TEXT);
+        String text = str(x, Notification.EXTRA_TEXT);
+        String raw = app + SEP + pkg + SEP + title + SEP + sub + SEP + (n.tickerText == null ? "" : n.tickerText.toString()) + SEP + text;
         Pattern p = pattern(c);
-        if (p == null || !p.matcher(raw).find()) return;
-        // 내용이 같은 갱신은 다시 넘기지 않음 — 메신저는 답장을 보내거나 읽음 처리할 때 같은 알림을 고쳐 여러 번 다시 올림
-        // (2026-10-01 가상 폰: 문자 하나에 8번 넘어가 매크로가 동시에 처리하며 답장을 두 번 보냈음).
-        // when(메시지를 받은 시각)까지 같아야 같은 것 — 다시 올려도 when은 그대로라 다시 안 넘기고, 같은 사람이 같은 말을 또 보내면(when이 다름)
-        // 넘김(2026-10-02 가상 폰: 구글 메시지가 다시 올린 대화 알림 12개 모두 when이 처음 받은 시각 그대로)
-        String sig = raw + SEP + n.when;
-        synchronized (LAST) {
-            if (sig.equals(LAST.get(s.getKey()))) return;
-            LAST.put(s.getKey(), sig);
+        if (p == null) return;
+        List<Intent> out = new ArrayList<Intent>();
+        List<Msg> ms = messages(x);
+        boolean timed = !ms.isEmpty();
+        for (Msg m : ms) if (m.time <= 0) timed = false;
+        if (timed) {
+            // 대화형 알림: 목록에서 이 대화방에 마지막으로 넘긴 뒤 새로 온 메시지(내가 보낸 것 빼고)를 오래된 것부터 하나씩.
+            // 다시 올림·내 답장·읽음 처리로 같은 알림이 고쳐 올라와도 새 메시지가 없으면 안 넘김
+            String key = s.getKey();
+            SharedPreferences mp = msgPrefs(c);
+            String rec = "";
+            try {
+                rec = mp.getString(key, "");
+            } catch (Exception ignored) {
+            }
+            long floor = s.getPostTime() - FIRST_MS;
+            java.util.TreeSet<Long> done = new java.util.TreeSet<Long>();
+            int bar = rec.indexOf('|');
+            if (bar > 0) {
+                try {
+                    floor = Long.parseLong(rec.substring(0, bar));
+                } catch (Exception ignored) {
+                }
+                for (String t : rec.substring(bar + 1).split(",")) {
+                    try {
+                        if (!t.isEmpty()) done.add(Long.parseLong(t));
+                    } catch (Exception ignored) {
+                    }
+                }
+            }
+            int doneBefore = done.size();
+            long floorBefore = floor;
+            Msg latest = null;
+            for (Msg m : ms) if (!m.sender.isEmpty()) latest = m;
+            // 합쳐진 앞 메시지는 그 앱 알림 모양대로: 제목이 보낸 사람이면(카톡·문자 1:1) 그 사람을, 내용 앞에 '보낸 사람: '이 붙는 앱(단톡방)은 그렇게
+            boolean titleIsSender = latest != null && title.trim().equals(latest.sender.trim());
+            boolean prefixed = latest != null && text.startsWith(latest.sender + ": ");
+            for (Msg m : ms) {
+                if (m.sender.isEmpty() || m.time <= floor || done.contains(m.time)) continue;   // 내가 보낸 것·처음 보기 전·이미 넘긴 것
+                done.add(m.time);
+                String r;
+                if (m == latest && (text.equals(m.text) || text.equals(m.sender + ": " + m.text))) {
+                    r = raw;                               // 마지막 메시지는 알림 그대로(예전과 같은 글자)
+                } else {
+                    r = app + SEP + pkg + SEP + (titleIsSender ? m.sender : title) + SEP + sub + SEP + SEP
+                            + (prefixed ? m.sender + ": " + m.text : m.text);
+                }
+                // 받은 시각은 메시지마다(알림의 when은 합친 알림이면 첫 메시지 시각이라 다른 메시지와 섞임)
+                if (p.matcher(r).find()) out.add(intent(r, s, m.time));
+            }
+            while (done.size() > SEEN_MAX) floor = Math.max(floor, done.pollFirst());
+            if (done.size() != doneBefore || floor != floorBefore || bar <= 0) {
+                StringBuilder sb = new StringBuilder().append(floor).append('|');
+                for (Long t : done) sb.append(t).append(',');
+                SharedPreferences.Editor ed = mp.edit().putString(key, sb.toString());
+                if (mp.getAll().size() > 400) {                // 3일 넘게 새 메시지가 없는 방은 지움
+                    long old = System.currentTimeMillis() - MSG_KEEP_MS;
+                    for (Map.Entry<String, ?> e : mp.getAll().entrySet()) {
+                        String v = String.valueOf(e.getValue());
+                        long newest = 0;
+                        for (String t : v.substring(v.indexOf('|') + 1).split(",")) {
+                            try {
+                                if (!t.isEmpty()) newest = Math.max(newest, Long.parseLong(t));
+                            } catch (Exception ignored) {
+                            }
+                        }
+                        if (newest < old) ed.remove(e.getKey());
+                    }
+                }
+                ed.apply();
+            }
+        } else {
+            if (!p.matcher(raw).find()) return;
+            // 내용이 같은 갱신은 다시 넘기지 않음 — 메신저는 답장을 보내거나 읽음 처리할 때 같은 알림을 고쳐 여러 번 다시 올림
+            // (2026-10-01 가상 폰: 문자 하나에 8번 넘어가 매크로가 동시에 처리하며 답장을 두 번 보냈음).
+            // when(메시지를 받은 시각)까지 같아야 같은 것 — 다시 올려도 when은 그대로라 다시 안 넘기고, 같은 사람이 같은 말을 또 보내면(when이 다름)
+            // 넘김(2026-10-02 가상 폰: 구글 메시지가 다시 올린 대화 알림 12개 모두 when이 처음 받은 시각 그대로)
+            String sig = raw + SEP + n.when;
+            synchronized (LAST) {
+                if (sig.equals(LAST.get(s.getKey()))) return;
+                LAST.put(s.getKey(), sig);
+            }
+            out.add(intent(raw, s, n.when));
         }
-        final Intent i = new Intent(ACTION).setPackage(MD)
-                .putExtra("raw", raw).putExtra("key", s.getKey()).putExtra("t", String.valueOf(s.getPostTime()))
-                .putExtra("w", String.valueOf(n.when));
+        if (out.isEmpty()) return;
         synchronized (H) {
             appCtx = c.getApplicationContext();
-            QUEUE.add(i);
+            QUEUE.addAll(out);
             if (!busy) {
                 busy = true;
                 H.post(NEXT);
             }
         }
         SharedPreferences pr = prefs(c);
-        pr.edit().putInt("n", pr.getInt("n", 0) + 1).apply();
+        pr.edit().putInt("n", pr.getInt("n", 0) + out.size()).apply();
+        if (out.size() > 1) android.util.Log.i("MDHelper", "forward: " + out.size() + " messages from one notification");
     }
 
     /** 줄의 맨 앞 알림을 넘기고, 다음 것은 ACK(매크로가 그 알림을 다 처리함)나 시간(ACK 판이 아니면 0.4초, 맞으면 3초) 뒤에 */

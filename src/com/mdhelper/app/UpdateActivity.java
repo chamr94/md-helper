@@ -35,6 +35,8 @@ public class UpdateActivity extends Activity {
 
     static final String TAG = "MDHelper";
     static final String STATUS = "com.mdhelper.app.INSTALL_STATUS";
+    /** 업데이트를 맡긴 시각(t) — 다시 시작한 뒤 그동안 온 알림을 메시지 알리미에 넘길 때 씀(NotiService.resendAfterUpdate) */
+    static final String PREFS = "update";
 
     private Uri pending;           // '이 출처 허용'을 켜러 간 동안 기다리는 파일
 
@@ -170,6 +172,8 @@ public class UpdateActivity extends Activity {
                 }
                 Intent cb = new Intent(STATUS).setPackage(getPackageName());
                 int flags = PendingIntent.FLAG_UPDATE_CURRENT | (Build.VERSION.SDK_INT >= 31 ? PendingIntent.FLAG_MUTABLE : 0);
+                // 설치되면 이 앱이 바로 꺼지므로 기록은 맡기기 전에(바로 쓰는 commit)
+                getSharedPreferences(PREFS, MODE_PRIVATE).edit().putLong("t", System.currentTimeMillis()).commit();
                 s.commit(PendingIntent.getBroadcast(this, id, cb, flags).getIntentSender());
             }
             Log.i(TAG, "update committed: " + got.getLongVersionCode());

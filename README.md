@@ -4,6 +4,7 @@
 
 [MacroDroid](https://www.macrodroid.com/) 매크로가 부르면, MacroDroid만으로는 할 수 없는 일을 대신 하는 작은 안드로이드 앱입니다.
 화면 없이 뒤에서 답만 하고, **인터넷 권한이 없어서** 기억한 내용을 밖으로 보내지 않습니다.
+접근성 서비스('MD 도우미 보안 잠금 덮개')는 앱 잠금 매크로를 쓸 때만 켜면 되고, **앞에 온 앱 이름만 보고 화면 내용은 읽지 않습니다**.
 앱 화면은 폰 언어를 따라 한국어·영어로 나오고, 안드로이드 13 이상에서는 설정 → 앱 → MD 도우미 → 언어에서 따로 고를 수 있습니다.
 
 📖 **사용 설명서(사진 포함)**: [한국어](docs/GUIDE.ko.md) · [English](docs/GUIDE.en.md) — 매크로 3개 설치·사용법, 빠른 설정 타일·위젯,
@@ -53,8 +54,9 @@ MD 도우미 설치(Play 프로텍트에 막힐 때 포함).
 | 알림 바로 열기 | '인텐트 보내기'(Activity) 동작 `com.mdhelper.OPEN_NOTIFICATION`, 패키지 `com.mdhelper.app`, 클래스 `com.mdhelper.app.OpenActivity`, 문자열 추가 값 `pkg`(앱 패키지)·`title`·`text`·`t`(받은 시각 ms) | 기억해 둔 알림 중 앱·시각(15초 안)·제목·내용이 맞는 것을 누른 것처럼 엽니다(알림이 이미 사라졌어도 3일 안). 못 찾으면 그 앱을 엽니다. |
 | 차 알아보기 | 셸 스크립트 `am broadcast --user 0 -n com.mdhelper.app/.CarReceiver` | 결과 줄의 `data="CARS=이름\|이름"` — 등록된 블루투스 기기 중 종류가 핸즈프리(0x0408)·카오디오(0x0420)인 것. 권한이 없으면 `NOPERM`, 블루투스가 없으면 `NOBT` |
 | 기압계 | 셸 스크립트 `am broadcast --user 0 -n com.mdhelper.app/.PressureReceiver [--ei w 초]` | `data="P=961.200;N=5;NET=-7.21;COV=240"` — 지금 기압(hPa)과, 최근 w초(기본 240) 동안 가장 높았던 곳보다 얼마나 내려왔는지(`NET`, m — 올라왔으면 양수). 기록이 60초보다 짧으면 `NET`은 빠집니다. 기압계가 없으면 `NOSENSOR`, 값이 안 오면 `NODATA` |
-| 알림 거르기·전달 | '인텐트 보내기'(Broadcast) 동작 `com.mdhelper.SET_FILTER`, 클래스 `com.mdhelper.app.FwdReceiver`, 문자열 추가 값 `re`(정규식)·`on`(`true`/`false`). 상태는 셸 `am broadcast --user 0 -n com.mdhelper.app/.FwdReceiver` | 켜 두면 정규식에 맞는 알림만 방송 `com.mdhelper.NOTI`(MacroDroid로, 추가 값 `raw`=`앱 이름␞패키지␞제목␞부제␞티커␞본문`·`key`·`t`)로 넘깁니다 — MacroDroid는 '인텐트를 받으면' 트리거로 받고 모든 알림마다 돌지 않아도 됩니다. 상태: `data="FWD=1;L=1;V=2;N=넘긴 수"` |
+| 알림 거르기·전달 | '인텐트 보내기'(Broadcast) 동작 `com.mdhelper.SET_FILTER`, 클래스 `com.mdhelper.app.FwdReceiver`, 문자열 추가 값 `re`(정규식)·`on`(`true`/`false`). 상태는 셸 `am broadcast --user 0 -n com.mdhelper.app/.FwdReceiver` | 켜 두면 정규식에 맞는 알림만 방송 `com.mdhelper.NOTI`(MacroDroid로, 추가 값 `raw`=`앱 이름␞패키지␞제목␞부제␞티커␞본문`·`key`·`t`·`w`(받은 시각))로 넘깁니다 — MacroDroid는 '인텐트를 받으면' 트리거로 받고 모든 알림마다 돌지 않아도 됩니다. 대화형 알림(메신저)은 알림 속 메시지 목록에서 그 방에 아직 안 넘긴 메시지를 하나씩 넘깁니다(메신저가 알림 하나로 합친 메시지도). `ack`=`true`면 매크로가 `com.mdhelper.ACK`를 보낼 때까지 다음 것을 기다립니다. 상태: `data="FWD=1;L=1;V=4;N=넘긴 수"` |
 | 알림에 답장 | '인텐트 보내기'(Broadcast) 동작 `com.mdhelper.REPLY`, 클래스 `com.mdhelper.app.ReplyReceiver`, 문자열 추가 값 `key`(알림 키)·`text` | 알림창의 그 알림에서 답장 칸을 찾아 글자를 보냅니다(메신저의 알림 답장과 같음). 답: `OK` / `GONE` / `NOREPLY` / `ERR` |
+| 앱 잠금 덮개 | '인텐트 보내기'(Broadcast) 동작 `com.mdhelper.SET_LOCK`(추가 값 `apps`·`grace`)·`LOCK_ASK`·`LOCK_PASS`·`LOCK_SKIP`, 클래스 `com.mdhelper.app.LockReceiver`. 상태는 셸 `am broadcast --user 0 -n com.mdhelper.app/.LockReceiver` | 접근성 '보안 잠금 덮개'를 켜 두면 잠근 앱이 앞에 오는 순간 불투명한 덮개를 그리고, 매크로의 가림 화면이 뜨면 걷습니다(지문을 묻기 전에 앱 내용이 보이지 않게). 상태: `data="LOCK=1;A=접근성;N=잠근 앱 수;M=놓침"` |
 | 스스로 업데이트 | '파일 열기' 동작(모든 파일 접근 경로의 새 `mdhelper.apk`), 앱 `com.mdhelper.app`, 화면 `com.mdhelper.app.UpdateActivity` | 받은 파일이 이 앱(같은 패키지)이고 지금보다 낮지 않은 버전이면 설치 관리자로 자기 자신을 업데이트합니다. '이 출처 허용'이 꺼져 있으면 그 설정을 먼저 엽니다. |
 
 - MacroDroid 셸(루트 없음)에서 `am broadcast`를 쓸 때는 **`--user 0`** 을 붙여야 합니다(없으면 권한 오류).
@@ -102,6 +104,7 @@ adb shell pm grant com.mdhelper.app android.permission.BLUETOOTH_CONNECT
 | `PressureReceiver.java` | 기압계 — 지금 기압과 최근 몇 분 동안 내려온 높이 |
 | `Forward.java`, `FwdReceiver.java` | 알림 거르기·전달(정규식은 앱 저장소에, 넘긴 알림은 MacroDroid로) |
 | `ReplyReceiver.java` | 알림 답장 칸으로 글자 보내기 |
+| `LockService.java`, `LockReceiver.java` | 앱 잠금 덮개(접근성 — 창 바뀜만 받고 화면 내용은 안 읽음), 잠근 앱·유예는 매크로가 알려 줌 |
 | `UpdateActivity.java` | 스스로 업데이트(받은 APK 확인 → 설치 관리자 세션) |
 | `MainActivity.java` | 상태 화면(권한·기능별 상태, 권한 켜기 버튼) |
 | `res/values`, `res/values-ko` | 화면 글자(영어·한국어) |
@@ -114,6 +117,8 @@ adb shell pm grant com.mdhelper.app android.permission.BLUETOOTH_CONNECT
 
 A small Android app that does what [MacroDroid](https://www.macrodroid.com/) macros cannot do on their own, when a macro asks.
 It has no UI of its own beyond a status screen, and **it has no internet permission**, so nothing it remembers leaves your phone.
+Its accessibility service ("MD Helper app lock cover") is only needed with an app lock macro, and **it only sees which app is in front —
+it never reads screen content**.
 The app follows your phone language (English or Korean). On Android 13+, you can also pick its language under
 Settings → Apps → MD Helper → Language.
 
@@ -167,8 +172,9 @@ phone language (Korean or English).
 | Open a notification directly | "Send Intent" (Activity) action `com.mdhelper.OPEN_NOTIFICATION`, package `com.mdhelper.app`, class `com.mdhelper.app.OpenActivity`, string extras `pkg` (app package), `title`, `text`, `t` (received time in ms) | Opens the remembered notification whose app, time (within 15 s), title and text match, as if you tapped it — even if it is already gone (up to 3 days). If none matches, opens the app. |
 | Car recognition | Shell script `am broadcast --user 0 -n com.mdhelper.app/.CarReceiver` | `data="CARS=name\|name"` in the result line — paired Bluetooth devices whose class is hands-free (0x0408) or car audio (0x0420). `NOPERM` without permission, `NOBT` without Bluetooth |
 | Barometer | Shell script `am broadcast --user 0 -n com.mdhelper.app/.PressureReceiver [--ei w seconds]` | `data="P=961.200;N=5;NET=-7.21;COV=240"` — current pressure (hPa) and how far you went down (`NET`, meters; positive if you went up) from the highest point in the last `w` seconds (default 240). `NET` is omitted if less than 60 s of history is available. `NOSENSOR` without a barometer, `NODATA` if no value arrives |
-| Notification filtering & forwarding | "Send Intent" (Broadcast) action `com.mdhelper.SET_FILTER`, class `com.mdhelper.app.FwdReceiver`, string extras `re` (regex) and `on` (`true`/`false`). Status: shell `am broadcast --user 0 -n com.mdhelper.app/.FwdReceiver` | When on, only notifications matching the regex are forwarded as broadcast `com.mdhelper.NOTI` (to MacroDroid, extras `raw` = `app name␞package␞title␞subtext␞ticker␞text`, `key`, `t`) — MacroDroid receives them with an "Intent Received" trigger instead of running for every notification. Status: `data="FWD=1;L=1;V=2;N=forwarded count"` |
+| Notification filtering & forwarding | "Send Intent" (Broadcast) action `com.mdhelper.SET_FILTER`, class `com.mdhelper.app.FwdReceiver`, string extras `re` (regex) and `on` (`true`/`false`). Status: shell `am broadcast --user 0 -n com.mdhelper.app/.FwdReceiver` | When on, only notifications matching the regex are forwarded as broadcast `com.mdhelper.NOTI` (to MacroDroid, extras `raw` = `app name␞package␞title␞subtext␞ticker␞text`, `key`, `t`, `w` (received time)) — MacroDroid receives them with an "Intent Received" trigger instead of running for every notification. For conversation notifications (messengers), each message in the notification's message list that hasn't been passed on for that chat yet is forwarded one by one (including messages a messenger merged into one notification). With `ack`=`true` it waits for `com.mdhelper.ACK` from the macro before the next one. Status: `data="FWD=1;L=1;V=4;N=forwarded count"` |
 | Reply to a notification | "Send Intent" (Broadcast) action `com.mdhelper.REPLY`, class `com.mdhelper.app.ReplyReceiver`, string extras `key` (notification key) and `text` | Finds the reply field of that notification in the shade and sends the text (like a messenger's inline reply). Result: `OK` / `GONE` / `NOREPLY` / `ERR` |
+| App lock cover | "Send Intent" (Broadcast) actions `com.mdhelper.SET_LOCK` (extras `apps`, `grace`), `LOCK_ASK`, `LOCK_PASS`, `LOCK_SKIP`, class `com.mdhelper.app.LockReceiver`. Status: shell `am broadcast --user 0 -n com.mdhelper.app/.LockReceiver` | With the "app lock cover" accessibility service on, it draws an opaque cover the moment a locked app comes to the front and removes it when the macro's cover screen appears (so the app isn't visible before the fingerprint prompt). Status: `data="LOCK=1;A=accessibility;N=locked apps;M=misses"` |
 | Self-update | "Open File" action (a new `mdhelper.apk` at an all-files-access path), app `com.mdhelper.app`, activity `com.mdhelper.app.UpdateActivity` | If the file is this app (same package) and not older, it updates itself through the package installer. If installing from this source is off, it opens that setting first. |
 
 - From MacroDroid's (non-root) shell, `am broadcast` needs **`--user 0`** (otherwise a permission error).
@@ -217,6 +223,7 @@ adb shell pm grant com.mdhelper.app android.permission.BLUETOOTH_CONNECT
 | `PressureReceiver.java` | Barometer — current pressure and how far you went down in the last few minutes |
 | `Forward.java`, `FwdReceiver.java` | Notification filtering and forwarding (regex kept in app storage, matches sent to MacroDroid) |
 | `ReplyReceiver.java` | Sends text through a notification's reply field |
+| `LockService.java`, `LockReceiver.java` | App lock cover (accessibility — receives window changes only, never screen content); locked apps and grace come from the macro |
 | `UpdateActivity.java` | Self-update (checks the downloaded APK → package installer session) |
 | `MainActivity.java` | Status screen (permissions, feature status, buttons to grant permissions) |
 | `res/values`, `res/values-ko` | UI text (English, Korean) |

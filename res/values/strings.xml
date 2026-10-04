@@ -28,4 +28,6 @@
     <string name="update_failed">Could not update MD Helper: %1$s</string>
     <string name="update_allow">Turn on \"Allow from this source\" for MD Helper, then come back to continue the update.</string>
     <string name="update_not_allowed">Update stopped: \"Allow from this source\" is off.</string>
+    <string name="lock_service_label">MD Helper app lock cover</string>
+    <string name="lock_service_desc">Covers the screen right away when you open an app locked by the app lock macro, before the fingerprint prompt. It only sees which app is in front and never reads screen content.</string>
 </resources>

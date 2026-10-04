@@ -40,7 +40,7 @@ Alerts you only for messenger notifications that contain your keywords, and repl
 1. Open the window and tap **[Settings]**.
 2. **Alerts** tab: apps to watch (app names exactly as shown in notifications, e.g. KakaoTalk, Messages), keywords (e.g. meeting, deadline, your name), important keywords (red text, strong vibration, optional sound), always-alert names (e.g. Mom), words and names to ignore, and a schedule (days, time ranges, dates, holidays).
 3. **Replies** tab: turn on auto reply and write your reply. Save three replies and switch with one tap. Apps to reply in, words that call you (your name or nickname — replies even in group chats), always reply in 1:1 chats, names to skip, and the reply interval (30 min by default).
-4. **Popup** tab: show unread alerts when unlocking, show again back at home, remove opened alerts, lock screen summary.
+4. **Popup** tab: show unread alerts when unlocking, show again back at home, remove opened alerts, clear a whole chat at once (opening one alert also clears the other alerts from that chat; alerts so far up that the chat would not show them stay, marked "↑ n messages up in the chat"), lock screen summary.
 5. **More** tab: version, [Check for updates], MD Helper status.
 6. Tap **[← Back to list]** to save (changes apply right away).
 
@@ -102,7 +102,7 @@ Here it is in action (Korean UI, waiting cut out): ① open it from the tile →
 2. **Main** tab, **Main alarm name** (default "Work alarm"): the macro turns this Turbo Alarm alarm on and off and sets its time. The first time you **close** the settings window, it creates this main alarm in Turbo Alarm for you (also if you install Turbo Alarm later). Renaming recreates it under the new name and deletes the old one. Rename it **only here** — if you rename or delete it in Turbo Alarm, the macro can't find it (a 'Please check your main alarm' notification); tap **[Recreate in Turbo]** on the Main tab to create it again with this name.
 3. **Main** tab: on/off and time per weekday (24-hour), sound, volume and vibration, day-off keywords (e.g. vacation, PTO — the main alarm and extra alert are off that day), also off on public holidays, extra-shift keywords (rings a set time before that event).
 4. **Extra** tab (an extra alert, e.g. for lunch break): weekday and extra-shift times (to the second), only at a set place (tap [Set current location as the place] there), [Test now].
-5. **Events** tab: minutes before events, per-keyword lead times (e.g. airport|flight=120, dentist=30), keywords to skip, event alarm sound.
+5. **Events** tab: minutes before events (empty or 0 = at the start time), per-keyword lead times (e.g. airport|flight=120, dentist=30), keywords to skip, event alarm sound.
 
 <img src="img/en/alarm_morning.png" width="280"> <img src="img/en/alarm_lunch.png" width="280">
 
@@ -122,7 +122,7 @@ Time from the note, for example: write "leave at 3 pm" in the note of a 4 pm "cl
 
 ## 6. 🧩 MD Helper (optional) — installing it past Play Protect
 
-A small helper app for things MacroDroid cannot do on its own (**no internet permission**, open source: https://github.com/chamr94/md-helper). Message Alerts opens the exact chat and uses less battery; Parking Map recognizes your car and guesses the floor from the barometer.
+A small helper app for things MacroDroid cannot do on its own (**no internet permission** — the "app lock cover" accessibility service is only for an app lock macro and only sees which app is in front, open source: https://github.com/chamr94/md-helper). Message Alerts opens the exact chat and uses less battery; Parking Map recognizes your car and guesses the floor from the barometer.
 
 When an app downloaded with a browser uses a sensitive permission such as **notification access**, Google Play Protect blocks the install to prevent fraud. Follow these steps to install it.
 

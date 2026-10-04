@@ -37,8 +37,29 @@ public class NotiService extends NotificationListenerService {
         try {
             StatusBarNotification[] now = getActiveNotifications();
             if (now != null) for (StatusBarNotification s : now) add(s);
+            resendAfterUpdate(now);
         } catch (Exception ignored) {
         }
+    }
+
+    /**
+     * 스스로 업데이트한 직후 다시 연결되면, 업데이트를 맡기기 10초 전부터 올라온 알림을 메시지 알리미에 넘김 — 설치하는 몇 초 동안은
+     * 도우미가 꺼져 있고 MacroDroid의 '알림이 오면'도 꺼져 있어서(전달 중) 그 사이 온 메시지를 놓치지 않게. 이미 넘긴 것은 매크로가
+     * 받은 시각(when)으로 걸러 다시 알리지 않음. 업데이트 한 번에 한 번만.
+     */
+    private void resendAfterUpdate(StatusBarNotification[] now) {
+        android.content.SharedPreferences p = getSharedPreferences(UpdateActivity.PREFS, MODE_PRIVATE);
+        long t = p.getLong("t", 0);
+        if (now == null || t <= 0 || p.getLong("resent", 0) == t || System.currentTimeMillis() - t > 5 * 60000L) return;
+        p.edit().putLong("resent", t).apply();
+        int n = 0;
+        for (StatusBarNotification s : now) {
+            if (s.getPostTime() >= t - 10000) {
+                Forward.posted(this, s);
+                n++;
+            }
+        }
+        android.util.Log.i("MDHelper", "after update: " + n + " recent notifications offered to forward");
     }
 
     @Override
