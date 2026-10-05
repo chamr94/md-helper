@@ -26,9 +26,16 @@ import java.util.regex.Pattern;
  * (MacroDroid 5.67.8 NotificationService·MagicTextReplacer 코드로 확인 — {notification}은 android.text).
  * 대화형 알림(메신저 — 알림 속 메시지 목록 android.messages)은 목록에서 이번에 새로 온 메시지를 하나씩 넘김(2026-10-04, 전달 판 4):
  * 메신저는 거의 동시에 온 메시지를 알림 하나로 합쳐 내용(android.text)엔 마지막 것만 보여서 앞 메시지를 놓쳤음(가상 폰 — 구글 메시지).
+ * 알림이 사라지면(전달 판 5, 2026-10-05) 메신저가 지웠거나(그 대화를 앱에서 읽음·다른 기기에서 읽음) 알림창에서 눌러 연 것만 알려 줌
+ * (com.mdhelper.NOTI_GONE — 메시지 알리미 '앱에서 직접 읽은 알림도 지우기'). 밀어서 지운 것·다른 앱(도우미·MacroDroid)이 지운 것은 안 알림.
  */
 final class Forward {
     static final String ACTION = "com.mdhelper.NOTI";
+    static final String GONE = "com.mdhelper.NOTI_GONE";
+    /** 알림이 사라진 이유 중 '읽음'으로 보는 것: 알림창에서 눌러 엶(1), 앱이 지움(8 — 그 대화를 읽음), 앱이 모두 지움(9) */
+    static final int REASON_CLICK = 1, REASON_APP_CANCEL = 8, REASON_APP_CANCEL_ALL = 9;
+    /** 자동응답을 보낸 뒤 이 시간 안에 앱이 지운 알림은 '읽음'이 아님 — 메신저는 답장하면 그 대화를 읽음으로 보고 알림을 지우기도 함(보통 1~3초 안) */
+    static final long REPLY_GRACE_MS = 8000;
     static final String MD = "com.arlosoft.macrodroid";
     static final String SEP = "␞";
     /** 거의 동시에 온 알림은 0.4초 간격으로 넘김 — MacroDroid가 받은 값을 한 사전에 저장하므로 다음 것이 덮어쓰기 전에 매크로가 옮겨 가게 */
@@ -62,6 +69,13 @@ final class Forward {
         @Override
         protected boolean removeEldestEntry(Map.Entry<String, Long> e) {
             return size() > 300;
+        }
+    };
+    /** 자동응답을 보낸 알림 키 → 보낸 시각 (ReplyReceiver) */
+    private static final Map<String, Long> REPLIED = new LinkedHashMap<String, Long>(16, 0.75f, true) {
+        @Override
+        protected boolean removeEldestEntry(Map.Entry<String, Long> e) {
+            return size() > 100;
         }
     };
 
@@ -166,6 +180,48 @@ final class Forward {
         }
     }
 
+    static String raw(Context c, StatusBarNotification s) {
+        Notification n = s.getNotification();
+        Bundle x = n.extras;
+        String pkg = s.getPackageName();
+        return appName(c, pkg) + SEP + pkg + SEP + str(x, Notification.EXTRA_TITLE) + SEP + str(x, Notification.EXTRA_SUB_TEXT) + SEP
+                + (n.tickerText == null ? "" : n.tickerText.toString()) + SEP + str(x, Notification.EXTRA_TEXT);
+    }
+
+    static void replied(String key) {
+        if (key == null) return;
+        synchronized (REPLIED) {
+            REPLIED.put(key, System.currentTimeMillis());
+        }
+    }
+
+    /**
+     * 알림이 사라짐(NotiService.onNotificationRemoved — 이유 코드가 있음). 매크로가 바라면(SET_FILTER gone=true) 거르기 정규식에 맞는 알림 중
+     * '읽음'(앱이 지움·알림창에서 눌러 엶)만 넘김 — 알림이 올 때와 같은 줄에 넣어 순서를 지킴(그 방의 앞 메시지를 다 넘긴 뒤 '읽음').
+     * 자동응답을 막 보낸 알림은 빼고(답장하면 메신저가 읽음으로 지우기도 함), 묶음 요약·계속 표시되는 알림도 뺌.
+     */
+    static void removed(Context c, StatusBarNotification s, int reason) {
+        if (!on(c) || !prefs(c).getBoolean("gone", false)) return;
+        if (reason != REASON_CLICK && reason != REASON_APP_CANCEL && reason != REASON_APP_CANCEL_ALL) return;
+        Notification n = s.getNotification();
+        if (n == null) return;
+        String pkg = s.getPackageName();
+        if (MD.equals(pkg) || c.getPackageName().equals(pkg) || "android".equals(pkg)) return;
+        if (s.isOngoing() || (n.flags & Notification.FLAG_GROUP_SUMMARY) != 0) return;
+        long now = System.currentTimeMillis();
+        synchronized (REPLIED) {
+            Long t = REPLIED.get(s.getKey());
+            if (t != null && now - t < REPLY_GRACE_MS) return;
+        }
+        Pattern p = pattern(c);
+        if (p == null || !p.matcher(raw(c, s)).find()) return;
+        List<Intent> out = new ArrayList<Intent>();
+        out.add(new Intent(GONE).setPackage(MD).putExtra("key", s.getKey()).putExtra("pkg", pkg)
+                .putExtra("t", String.valueOf(now)).putExtra("why", String.valueOf(reason)));
+        enqueue(c, out);
+        android.util.Log.i("MDHelper", "gone: " + pkg + " reason " + reason);
+    }
+
     static void posted(Context c, StatusBarNotification s) {
         if (!on(c)) return;
         Notification n = s.getNotification();
@@ -182,7 +238,7 @@ final class Forward {
         Bundle x = n.extras;
         String app = appName(c, pkg), title = str(x, Notification.EXTRA_TITLE), sub = str(x, Notification.EXTRA_SUB_TEXT);
         String text = str(x, Notification.EXTRA_TEXT);
-        String raw = app + SEP + pkg + SEP + title + SEP + sub + SEP + (n.tickerText == null ? "" : n.tickerText.toString()) + SEP + text;
+        String raw = raw(c, s);
         Pattern p = pattern(c);
         if (p == null) return;
         List<Intent> out = new ArrayList<Intent>();
@@ -269,6 +325,14 @@ final class Forward {
             out.add(intent(raw, s, n.when));
         }
         if (out.isEmpty()) return;
+        enqueue(c, out);
+        SharedPreferences pr = prefs(c);
+        pr.edit().putInt("n", pr.getInt("n", 0) + out.size()).apply();
+        if (out.size() > 1) android.util.Log.i("MDHelper", "forward: " + out.size() + " messages from one notification");
+    }
+
+    /** 넘길 줄에 넣음 — 하나씩(ACK·간격) 보냄 */
+    private static void enqueue(Context c, List<Intent> out) {
         synchronized (H) {
             appCtx = c.getApplicationContext();
             QUEUE.addAll(out);
@@ -277,9 +341,6 @@ final class Forward {
                 H.post(NEXT);
             }
         }
-        SharedPreferences pr = prefs(c);
-        pr.edit().putInt("n", pr.getInt("n", 0) + out.size()).apply();
-        if (out.size() > 1) android.util.Log.i("MDHelper", "forward: " + out.size() + " messages from one notification");
     }
 
     /** 줄의 맨 앞 알림을 넘기고, 다음 것은 ACK(매크로가 그 알림을 다 처리함)나 시간(ACK 판이 아니면 0.4초, 맞으면 3초) 뒤에 */

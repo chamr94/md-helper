@@ -114,6 +114,7 @@ public class MainActivity extends Activity {
                 + (NotiService.instance == null && noti ? getString(R.string.connecting) : "")
                 + "\n" + getString(R.string.noti_note)
                 + "\n" + getString(Forward.on(this) ? R.string.fwd_on : R.string.fwd_off, Forward.count(this))
+                + "\n" + pickupLine()
                 + "\n\n" + getString(bt ? R.string.bt_on : R.string.bt_off)
                 + "\n" + getString(R.string.cars, CarReceiver.cars(this).replace("CARS=", "").replace("|", ", "))
                 + "\n\n" + (!baro ? getString(R.string.baro_none)
@@ -125,5 +126,11 @@ public class MainActivity extends Activity {
         restricted.setVisibility(hint);
         infoBtn.setVisibility(hint);
         btBtn.setEnabled(!bt);
+    }
+
+    /** 폰을 들면 알리기(메시지 알리미): 쓰는 센서 — 없으면 매크로가 화면이 켜질 때로 대신함 */
+    private String pickupLine() {
+        if (PickupWatch.probe(this) == 0) return getString(R.string.pickup_none);
+        return getString(PickupWatch.running() ? R.string.pickup_on : R.string.pickup_off, PickupWatch.name());
     }
 }

@@ -10,6 +10,9 @@
     <string name="noti_note">   알림 접근을 켜 두면 도우미가 늘 깨어 있어서 기압을 1초마다 기록해요(배터리는 거의 안 써요).</string>
     <string name="fwd_on">   알림 전달(메시지 알리미): 켜짐 · 넘긴 알림 %1$d개</string>
     <string name="fwd_off">   알림 전달(메시지 알리미): 꺼짐 · 넘긴 알림 %1$d개</string>
+    <string name="pickup_on">   폰을 들면 알리기(메시지 알리미): 켜짐 · 센서 %1$s</string>
+    <string name="pickup_off">   폰을 들면 알리기(메시지 알리미): 꺼짐 · 센서 %1$s</string>
+    <string name="pickup_none">   폰을 들면 알리기: 이 폰에는 들어 올림 센서가 없어요 (메시지 알리미가 화면이 켜질 때 알려요)</string>
     <string name="bt_on">✅ 블루투스 권한: 켜짐</string>
     <string name="bt_off">⚠️ 블루투스 권한: 꺼짐 — 아래 버튼으로 켜 주세요</string>
     <string name="cars">   알아본 차: %1$s</string>

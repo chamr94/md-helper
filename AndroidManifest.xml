@@ -11,6 +11,9 @@
     <!-- 안드로이드 12+: 자기 자신을 업데이트할 때 확인 창 없이 (SessionParams.USER_ACTION_NOT_REQUIRED — 이 권한을 적어야 받아들여짐) -->
     <uses-permission android:name="android.permission.UPDATE_PACKAGES_WITHOUT_USER_ACTION" />
 
+    <!-- 폰을 들었다고 메시지 알리미에 알린 뒤 매크로가 진동할 때까지 잠깐 깨어 있게 (PickupWatch, 3초) -->
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
     <!-- 알림을 못 찾았을 때 그 앱을 열려면 다른 앱의 실행 화면을 볼 수 있어야 함 (Android 11+ 패키지 공개 범위) -->
     <queries>
         <intent>
@@ -70,13 +73,15 @@
             android:name=".PressureReceiver"
             android:exported="true" />
 
-        <!-- 알림 전달(메시지 알리미): 거르기 정규식을 받거나(SET_FILTER) 매크로가 하나를 다 처리했다는 알림(ACK)을 받거나 상태를 'FWD=;L=;V=;N='으로 답함 -->
+        <!-- 알림 전달(메시지 알리미): 거르기 정규식·읽음 알리기·들어 올림을 받거나(SET_FILTER) 매크로가 하나를 다 처리했다는 알림(ACK)을 받거나
+             상태를 'FWD=;L=;V=;N=;P=;U=;G='로 답함 -->
         <receiver
             android:name=".FwdReceiver"
             android:exported="true">
             <intent-filter>
                 <action android:name="com.mdhelper.SET_FILTER" />
                 <action android:name="com.mdhelper.ACK" />
+                <action android:name="com.mdhelper.PICKUP_TEST" />
             </intent-filter>
         </receiver>
 

@@ -34,6 +34,7 @@ public class NotiService extends NotificationListenerService {
     public void onListenerConnected() {
         instance = this;
         PressureLog.start(this);        // 알림 접근이 켜져 있는 동안 기압 상시 기록 (주차 층 짐작)
+        PickupWatch.sync(this);         // 메시지 알리미가 바라면 폰을 들 때 알려 줌 (들어 올림 센서)
         try {
             StatusBarNotification[] now = getActiveNotifications();
             if (now != null) for (StatusBarNotification s : now) add(s);
@@ -66,6 +67,7 @@ public class NotiService extends NotificationListenerService {
     public void onListenerDisconnected() {
         instance = null;
         PressureLog.stop();
+        PickupWatch.stop();
     }
 
     @Override
@@ -74,11 +76,13 @@ public class NotiService extends NotificationListenerService {
         Forward.posted(this, s);        // 메시지 알리미: 거르기 정규식에 맞는 알림만 MacroDroid로 넘김 (켜져 있을 때)
     }
 
+    /** 사라진 이유(reason)가 오는 판(안드로이드 8+) — 메시지 알리미: 앱이 지웠거나 눌러 연 알림은 '읽음'으로 넘김(Forward.removed) */
     @Override
-    public void onNotificationRemoved(StatusBarNotification s) {
+    public void onNotificationRemoved(StatusBarNotification s, RankingMap rankingMap, int reason) {
         synchronized (CACHE) {
             for (Entry e : CACHE) if (e.key.equals(s.getKey())) e.removed = true;
         }
+        Forward.removed(this, s, reason);
     }
 
     static String str(CharSequence c) {

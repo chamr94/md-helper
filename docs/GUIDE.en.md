@@ -40,7 +40,7 @@ Alerts you only for messenger notifications that contain your keywords, and repl
 1. Open the window and tap **[Settings]**.
 2. **Alerts** tab: apps to watch (app names exactly as shown in notifications, e.g. KakaoTalk, Messages), keywords (e.g. meeting, deadline, your name), important keywords (red text, strong vibration, optional sound), always-alert names (e.g. Mom), words and names to ignore, and a schedule (days, time ranges, dates, holidays).
 3. **Replies** tab: turn on auto reply and write your reply. Save three replies and switch with one tap. Apps to reply in, words that call you (your name or nickname — replies even in group chats), always reply in 1:1 chats, names to skip, and the reply interval (30 min by default).
-4. **Popup** tab: show unread alerts when unlocking, show again back at home, remove opened alerts, clear a whole chat at once (opening one alert also clears the other alerts from that chat; alerts so far up that the chat would not show them stay, marked "↑ n messages up in the chat"), lock screen summary.
+4. **Popup** tab: show unread alerts when unlocking, show again back at home, remove opened alerts, clear a whole chat at once (opening one alert also clears the other alerts from that chat; alerts so far up that the chat would not show them stay, marked "↑ n messages up in the chat"), alerts per page (7 by default — swipe sideways for more), also remove alerts read in the app (when you read the chat in the messenger and its notification goes away; notifications you swipe away stay), buzz on pick-up (two short buzzes the first time you pick up the phone after a new alert), lock screen summary.
 5. **More** tab: version, [Check for updates], MD Helper status.
 6. Tap **[← Back to list]** to save (changes apply right away).
 
@@ -51,6 +51,8 @@ Alerts you only for messenger notifications that contain your keywords, and repl
 - When a keyword alert arrives while you use the phone, the **🔔 new alert** window pops up. Tap an alert to open its app (the exact chat with MD Helper).
 - Alerts that arrive while locked are collected and shown together when you unlock. [Later] shows them again next time.
 - The list window (tile or widget) shows received alerts, and its switches turn keyword alerts and auto reply on or off. [Clear] empties the list.
+- With more alerts than fit on a page, swipe sideways for the next page (the 1·2·3 on top are page numbers).
+- Buzz on pick-up uses the pick-up sensor when MD Helper is installed and the phone has one; otherwise it buzzes when the locked screen turns on (Settings shows which — turn on lift-to-wake and just picking it up works).
 - Auto-replied alerts show **🤖 Auto-replied** and the text that was sent. The same person gets another reply only after the interval.
 - KakaoTalk alerts have no chat name, so KakaoTalk only gets a reply when a message calls you.
 

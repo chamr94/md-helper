@@ -9,6 +9,9 @@
     <string name="connecting"> (connecting to the notification service)</string>
     <string name="noti_note">   With notification access on, the helper stays awake and logs air pressure every second (almost no battery).</string>
     <string name="fwd_on">   Notification forwarding (Message Alerts): on · forwarded %1$d</string>
+    <string name="pickup_on">   Buzz on pick-up (Message Alerts): on · sensor %1$s</string>
+    <string name="pickup_off">   Buzz on pick-up (Message Alerts): off · sensor %1$s</string>
+    <string name="pickup_none">   Buzz on pick-up: this phone has no pick-up sensor (Message Alerts uses the screen turning on instead)</string>
     <string name="fwd_off">   Notification forwarding (Message Alerts): off · forwarded %1$d</string>
     <string name="bt_on">✅ Bluetooth permission: on</string>
     <string name="bt_off">⚠️ Bluetooth permission: off — turn it on with the button below</string>

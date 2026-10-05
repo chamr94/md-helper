@@ -43,6 +43,7 @@ public class ReplyReceiver extends BroadcastReceiver {
             for (RemoteInput r : ins) values.putCharSequence(r.getResultKey(), text);
             Intent fill = new Intent();
             RemoteInput.addResultsToIntent(ins, fill, values);
+            Forward.replied(key);           // 답장 뒤 메신저가 알림을 지워도 '읽음'으로 넘기지 않게
             a.actionIntent.send(c, 0, fill);
             result("OK");
         } catch (Exception e) {
